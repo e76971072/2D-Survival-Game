@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public float speed;
 
-    Rigidbody2D playerRigidbody;
+    Rigidbody2D rb2D;
     Vector2 movement;
     Vector2 direction;
     Vector2 mousePosition;
@@ -14,17 +14,14 @@ public class PlayerMovement : MonoBehaviour {
     float angle;
 
 	// Use this for initialization
-	void Awake () {
-        playerRigidbody = GetComponent<Rigidbody2D>();
-	}
-	
-    void Update ()
+	void Awake ()
     {
-        
-    }
+        rb2D = GetComponent<Rigidbody2D>();
+	}
 
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate ()
+    {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
@@ -36,7 +33,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         movement.Set(h,v);
         movement = movement.normalized * speed * Time.deltaTime;
-        playerRigidbody.velocity = movement;
+        rb2D.velocity = movement;
     }
 
     void Rotate ()

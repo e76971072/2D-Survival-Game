@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour {
 
     Collider2D enemyCollider;
     int currentHealth;
-    bool isDead;
+    //bool isDead;
 
     // Use this for initialization
     void Awake()
@@ -17,19 +17,9 @@ public class EnemyHealth : MonoBehaviour {
         currentHealth = startingHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void TakeDamage(int damage)
     {
-        if (isDead)
-            return;
         currentHealth -= damage;
-        Debug.Log(currentHealth);
-
         if (currentHealth <= 0)
         {
             Death();
@@ -38,7 +28,6 @@ public class EnemyHealth : MonoBehaviour {
 
     void Death()
     {
-        isDead = true;
         enemyCollider.enabled = false;
         Destroy(gameObject, deadWaitTime);
     }
