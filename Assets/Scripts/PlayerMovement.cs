@@ -4,10 +4,13 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
     public float speed;
+    public Texture2D crosshairCursor;
+    [HideInInspector]
+    public Vector2 direction;
 
     Rigidbody2D rb2D;
+    Vector2 cursorHotspot;
     Vector2 movement;
-    Vector2 direction;
     Vector2 mousePosition;
     float h;
     float v;
@@ -16,6 +19,8 @@ public class PlayerMovement : MonoBehaviour {
 	// Use this for initialization
 	void Awake ()
     {
+        cursorHotspot = new Vector2 (crosshairCursor.width / 2, crosshairCursor.height / 2);
+        Cursor.SetCursor(crosshairCursor, cursorHotspot, CursorMode.Auto);
         rb2D = GetComponent<Rigidbody2D>();
 	}
 

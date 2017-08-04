@@ -22,7 +22,7 @@ public class MeleeAttack : MonoBehaviour {
         timer += Time.deltaTime;
         if (Input.GetButton("Fire1") && timer >= timeBetweenAttack)
         {
-            if (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !canDamage)
+            if (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 canDamage = true;
             }
