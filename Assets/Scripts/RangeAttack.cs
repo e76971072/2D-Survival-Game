@@ -11,12 +11,12 @@ public class RangeAttack : MonoBehaviour {
 
     float nextTimeToFire = 0f;
     PlayerMovement playerMovement;
-    Transform gunMuzzle;
+    //Transform gunMuzzle;
 
     void Awake()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
-        gunMuzzle = GetComponentInChildren<Transform>();
+        //gunMuzzle = GetComponentInChildren<Transform>();
     }
 
     void Update()
@@ -30,13 +30,13 @@ public class RangeAttack : MonoBehaviour {
 
     void Shoot()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(gunMuzzle.position, playerMovement.direction, shootingRange);
+        RaycastHit2D hitInfo = Physics2D.Raycast(gameObject.transform.position, playerMovement.direction, shootingRange);
         GameObject hitParticle = Instantiate(gunHitEffect, hitInfo.point, Quaternion.FromToRotation(Vector2.up, -playerMovement.direction));
         Destroy(hitParticle, 0.5f);
         if (hitInfo.collider != null && hitInfo.transform.tag == "Enemy")
         {
             hitInfo.transform.GetComponent<EnemyHealth>().TakeDamage(damage);
-            Debug.DrawLine(gunMuzzle.position, hitInfo.point, Color.red, 1f);
+            Debug.DrawLine(gameObject.transform.position, hitInfo.point, Color.red, 1f);
         }
     }
 }
