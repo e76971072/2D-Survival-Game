@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class EnemyHealth : MonoBehaviour {
+public class EnemyHealth : MonoBehaviour, IDamageable
+{
+    #region SerializeFields
 
-    public float deadWaitTime;
-    public int startingHealth;
+    [SerializeField] private float deadWaitTime;
+    [SerializeField] private int startingHealth;
 
-    Collider2D enemyCollider;
-    int currentHealth;
-    //bool isDead;
+    #endregion
 
-    // Use this for initialization
-    void Awake()
+    #region NonSerializeFields
+
+    private Collider2D enemyCollider;
+    private int currentHealth;
+
+    #endregion
+
+    private void Awake()
     {
         enemyCollider = GetComponent<Collider2D>();
         currentHealth = startingHealth;
@@ -26,9 +31,9 @@ public class EnemyHealth : MonoBehaviour {
         }
     }
 
-    void Death()
+    private void Death()
     {
         enemyCollider.enabled = false;
-        Destroy(gameObject, deadWaitTime);
+        Destroy(transform.parent.gameObject, deadWaitTime);
     }
 }

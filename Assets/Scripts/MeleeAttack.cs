@@ -1,48 +1,60 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class MeleeAttack : MonoBehaviour {
+[RequireComponent(typeof(Animator))]
+public abstract class MeleeAttack : MonoBehaviour
+{
+    #region SerializeFields
 
-    public float timeBetweenAttack;
-    public int damage;
+    [SerializeField] protected float timeBetweenAttack;
+    [SerializeField] protected int damage;
+    [SerializeField] protected float hitRadius = 1f;
+    [SerializeField] protected LayerMask targetLayerMask;
 
-    Animator attackAnimator;
-    bool canDamage = true;
-    bool enemyInRange;
-    bool hasAttacked;
-    float timer = 0f;
+    #endregion
 
-    void Awake()
+    #region NonSerializeFields
+
+    protected float timer;
+    private Collider2D[] targetResults;
+    private Animator animator;
+    private readonly int attackParameter = Animator.StringToHash("Attack");
+
+    #endregion
+
+    protected virtual void Awake()
     {
-        attackAnimator = GetComponent<Animator>();
+        targetResults = new Collider2D[50];
+        animator = GetComponent<Animator>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         timer += Time.deltaTime;
-        if (Input.GetButton("Fire1") && timer >= timeBetweenAttack)
+    }
+
+    protected void Attack()
+    {
+        var targetCount =
+            Physics2D.OverlapCircleNonAlloc(transform.position, hitRadius, targetResults, targetLayerMask);
+        for (var i = 0; i < targetCount; i++)
         {
-            if (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-            {
-                canDamage = true;
-            }
-            Attack();
+            var targetCollider2D = targetResults[i];
+            targetCollider2D.GetComponent<IDamageable>().TakeDamage(damage);
         }
     }
 
-    void Attack()
+    private bool IsIdle()
     {
-        timer = 0f;
-        attackAnimator.SetTrigger("Attack");
-        
+        return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
     }
-    void OnTriggerStay2D(Collider2D collision2D)
+
+    protected void PlayAttackAnimation()
     {
-        if (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("Melee Attack") && collision2D.tag == "Enemy" && canDamage == true)
-        {
-            collision2D.GetComponent<EnemyHealth>().TakeDamage(damage);
-            canDamage = false;
-        }
+        animator.SetTrigger(attackParameter);
+    }
+
+    protected bool CanDamage()
+    {
+        return Input.GetButton("Fire1") && timer >= timeBetweenAttack && IsIdle();
     }
 }
-

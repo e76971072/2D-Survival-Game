@@ -1,20 +1,34 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour {
+public class EnemySpawner : MonoBehaviour
+{
+    [SerializeField] private GameObject[] enemyType;
+    [SerializeField] private float timeBetweenSpawn;
 
-    public GameObject enemyType;
-    public float timeBetweenSpawn;
-
-    void Start()
+    private void Start()
     {
-        Spawn();
+        StartCoroutine(Spawn());
     }
 
-    void Spawn ()
+    private IEnumerator Spawn()
     {
-            Instantiate(enemyType, gameObject.transform.position, enemyType.transform.rotation, gameObject.transform);
-            Invoke("Spawn", timeBetweenSpawn);
+        while (true)
+        {
+            var spawnerPosition = transform;
+            var enemyToSpawn = RandomEnemy();
+            Instantiate(enemyToSpawn, spawnerPosition.position, enemyToSpawn.transform.rotation, spawnerPosition);
+            yield return new WaitForSeconds(timeBetweenSpawn);
+        }
+    }
+
+    private GameObject RandomEnemy()
+    {
+        return enemyType[RandomEnemyIndex()];
+    }
+
+    private int RandomEnemyIndex()
+    {
+        return Random.Range(0, enemyType.Length);
     }
 }

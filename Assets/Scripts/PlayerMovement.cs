@@ -1,31 +1,30 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
+    #region SerializeFields
 
-    public float speed;
-    public Texture2D crosshairCursor;
-    [HideInInspector]
-    public Vector2 direction;
+    [SerializeField] private float speed;
+    [SerializeField] private Camera mainCamera;
 
-    Rigidbody2D rb2D;
-    Vector2 cursorHotspot;
-    Vector2 movement;
-    Vector2 mousePosition;
-    float h;
-    float v;
-    float angle;
+    #endregion
 
-	// Use this for initialization
-	void Awake ()
+    #region NonSerializeFields
+
+    [HideInInspector] public Vector2 direction;
+
+    private Vector2 movement;
+    private float h, v;
+    private Transform playerTransform;
+
+    #endregion
+    
+    private void Awake()
     {
-        cursorHotspot = new Vector2 (crosshairCursor.width / 2, crosshairCursor.height / 2);
-        Cursor.SetCursor(crosshairCursor, cursorHotspot, CursorMode.Auto);
-        rb2D = GetComponent<Rigidbody2D>();
-	}
+        playerTransform = transform;
+    }
 
-	// Update is called once per frame
-	void FixedUpdate ()
+    private void FixedUpdate()
     {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
@@ -34,18 +33,18 @@ public class PlayerMovement : MonoBehaviour {
         Rotate();
     }
 
-    void Move (float h, float v)
+    private void Move(float horizontal, float vertical)
     {
-        movement.Set(h,v);
-        movement = movement.normalized * speed * Time.deltaTime;
-        rb2D.velocity = movement;
+        movement.Set(horizontal, vertical);
+        movement = Time.deltaTime * speed * movement.normalized;
+        playerTransform.position += (Vector3)movement;
     }
 
-    void Rotate ()
+    private void Rotate()
     {
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        direction = (mousePosition - (Vector2)transform.position).normalized;
-        angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        direction = (mousePosition - (Vector2) playerTransform.position).normalized;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        playerTransform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 }
