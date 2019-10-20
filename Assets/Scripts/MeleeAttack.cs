@@ -53,8 +53,8 @@ public abstract class MeleeAttack : MonoBehaviour
         animator.SetTrigger(attackParameter);
     }
 
-    protected bool CanDamage()
+    protected virtual bool CanDamage()
     {
-        return Input.GetButton("Fire1") && timer >= timeBetweenAttack && IsIdle();
+        return Input.GetButtonDown("Fire1") && timer >= timeBetweenAttack && IsIdle();
     }
 }

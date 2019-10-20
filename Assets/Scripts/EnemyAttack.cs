@@ -1,16 +1,23 @@
 ﻿using UnityEngine;
 
-public class EnemyAttack: MonoBehaviour
+[RequireComponent(typeof(Collider2D))]
+public class EnemyAttack : MeleeAttack
 {
-    #region SerializeFields
-    
-    
-    
-    #endregion
+    private void ResetAttackTime()
+    {
+        timer = 0f;
+    }
 
-    #region NonSerializeFields
+    protected override bool CanDamage()
+    {
+        return timer >= timeBetweenAttack;
+    }
 
-
-
-    #endregion
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (!CanDamage()) return;
+        
+        Attack();
+        ResetAttackTime();
+    }
 }

@@ -216,7 +216,9 @@
           <e p="EnemyAttack.cs" t="Include" />
           <e p="EnemyHealth.cs" t="Include" />
           <e p="EnemySpawner.cs" t="Include" />
-          <e p="IDamageable.cs" t="Include" />
+          <e p="Interfaces" t="Include">
+            <e p="IDamageable.cs" t="Include" />
+          </e>
           <e p="MeleeAttack.cs" t="Include" />
           <e p="MeleeWeapon.cs" t="Include" />
           <e p="PlayerHealth.cs" t="Include" />
