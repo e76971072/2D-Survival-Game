@@ -83,6 +83,9 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/Quan Dao/Documents/Unity Projects/2D-Survival-Game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>C:/Users/Quan Dao/Documents/Unity Projects/2D-Survival-Game/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/Quan Dao/Documents/Unity Projects/2D-Survival-Game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>

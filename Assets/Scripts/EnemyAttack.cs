@@ -13,7 +13,7 @@ public class EnemyAttack : MeleeAttack
         return timer >= timeBetweenAttack;
     }
 
-    private void OnCollisionStay2D(Collision2D other)
+    private void OnCollisionStay2D()
     {
         if (!CanDamage()) return;
         

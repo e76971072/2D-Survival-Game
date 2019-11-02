@@ -7,8 +7,9 @@ public abstract class MeleeAttack : MonoBehaviour
 
     [SerializeField] protected float timeBetweenAttack;
     [SerializeField] protected int damage;
-    [SerializeField] protected float hitRadius = 1f;
+    [SerializeField] protected float attackRange = 1f;
     [SerializeField] protected LayerMask targetLayerMask;
+    [SerializeField] protected Transform attackPosition;
 
     #endregion
 
@@ -35,7 +36,7 @@ public abstract class MeleeAttack : MonoBehaviour
     protected void Attack()
     {
         var targetCount =
-            Physics2D.OverlapCircleNonAlloc(transform.position, hitRadius, targetResults, targetLayerMask);
+            Physics2D.OverlapCircleNonAlloc(attackPosition.position, attackRange, targetResults, targetLayerMask);
         for (var i = 0; i < targetCount; i++)
         {
             var targetCollider2D = targetResults[i];
@@ -56,5 +57,11 @@ public abstract class MeleeAttack : MonoBehaviour
     protected virtual bool CanDamage()
     {
         return Input.GetButtonDown("Fire1") && timer >= timeBetweenAttack && IsIdle();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPosition.position, attackRange);
     }
 }
