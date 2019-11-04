@@ -216,6 +216,7 @@
           <e p="EnemyAttack.cs" t="Include" />
           <e p="EnemyHealth.cs" t="Include" />
           <e p="EnemySpawner.cs" t="Include" />
+          <e p="GameManager.cs" t="Include" />
           <e p="Health.cs" t="Include" />
           <e p="HealthBar.cs" t="Include" />
           <e p="HealthBarController.cs" t="Include" />

@@ -1,38 +1,27 @@
 ﻿using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour, IDamageable
+public class EnemyHealth : Health
 {
     #region SerializeFields
 
     [SerializeField] private float deadWaitTime;
-    [SerializeField] private int startingHealth;
 
     #endregion
 
     #region NonSerializeFields
 
     private Collider2D enemyCollider;
-    private int currentHealth;
 
     #endregion
 
     private void Awake()
     {
         enemyCollider = GetComponent<Collider2D>();
-        currentHealth = startingHealth;
     }
 
-    public void TakeDamage(int damage)
+    protected override void Die()
     {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            Death();
-        }
-    }
-
-    private void Death()
-    {
+        RemoveHealthBar();
         enemyCollider.enabled = false;
         Destroy(transform.parent.gameObject, deadWaitTime);
     }

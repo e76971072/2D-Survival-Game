@@ -264,5 +264,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foregroundImage: {fileID: 6429519573912207820}
-  updateSpeedInSec: 0.5
+  updateSpeedInSec: 0.25
   positionOffset: 1
