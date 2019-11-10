@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +8,11 @@ public class HealthBar : MonoBehaviour
     #region SerializeFields
 
     [SerializeField] private Image foregroundImage;
+    [SerializeField] private Image backgroundImage;
     [SerializeField] private float updateSpeedInSec = 0.5f;
     [SerializeField] private float positionOffset = 1f;
+    [SerializeField] private float fadeSeconds = 0.1f;
+    [SerializeField] private float shownSeconds = 2f;
 
     #endregion
 
@@ -18,6 +22,11 @@ public class HealthBar : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        FadeHealthBar(0, 0);
+    }
+
     public void SetHealth(Health healthToSet)
     {
         health = healthToSet;
@@ -26,7 +35,21 @@ public class HealthBar : MonoBehaviour
 
     private void HandleHealthChanged(float pct)
     {
+        FadeHealthBar(1, fadeSeconds);
         StartCoroutine(ChangeToPct(pct));
+        StartCoroutine(WaitToFade());
+    }
+
+    private IEnumerator WaitToFade()
+    {
+        yield return new WaitForSeconds(shownSeconds);
+        FadeHealthBar(0, fadeSeconds);
+    }
+
+    private void FadeHealthBar(float alphaValue, float seconds)
+    {
+        foregroundImage.CrossFadeAlpha(alphaValue, seconds, false);
+        backgroundImage.CrossFadeAlpha(alphaValue, seconds, false);
     }
 
     private IEnumerator ChangeToPct(float pct)

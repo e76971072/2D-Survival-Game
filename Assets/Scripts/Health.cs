@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class Health : MonoBehaviour, IDamageable
 {
     #region SerializeFields
@@ -25,7 +26,7 @@ public class Health : MonoBehaviour, IDamageable
         OnHealthAdded(this);
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         currentHealth -= damage;
         var currentHealthPct = (float) currentHealth / maxHealth;
