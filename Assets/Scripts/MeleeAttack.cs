@@ -26,6 +26,7 @@ public abstract class MeleeAttack : MonoBehaviour
     {
         targetResults = new Collider2D[50];
         animator = GetComponent<Animator>();
+        timer = timeBetweenAttack;
     }
 
     protected virtual void Update()
@@ -35,6 +36,7 @@ public abstract class MeleeAttack : MonoBehaviour
 
     protected void Attack()
     {
+        ResetAttackTime();
         var targetCount =
             Physics2D.OverlapCircleNonAlloc(attackPosition.position, attackRange, targetResults, targetLayerMask);
         for (var i = 0; i < targetCount; i++)
@@ -42,6 +44,11 @@ public abstract class MeleeAttack : MonoBehaviour
             var targetCollider2D = targetResults[i];
             targetCollider2D.GetComponent<IDamageable>().TakeDamage(damage);
         }
+    }
+
+    private void ResetAttackTime()
+    {
+        timer = 0f;
     }
 
     private bool IsIdle()

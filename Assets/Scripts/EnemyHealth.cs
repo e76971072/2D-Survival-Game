@@ -11,12 +11,21 @@ public class EnemyHealth : Health
     #region NonSerializeFields
 
     private Collider2D enemyCollider;
+    private Animator animator;
+    private static readonly int Blink = Animator.StringToHash("Blink");
 
     #endregion
 
     private void Awake()
     {
         enemyCollider = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        animator.SetTrigger(Blink);
     }
 
     protected override void Die()
