@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,6 +35,8 @@ public class HealthBar : MonoBehaviour
     private void HandleHealthChanged(float pct)
     {
         FadeHealthBar(1, fadeSeconds);
+        
+        StopAllCoroutines();
         StartCoroutine(ChangeToPct(pct));
         StartCoroutine(WaitToFade());
     }

@@ -26,6 +26,7 @@ public class EnemyHealth : Health
     {
         base.TakeDamage(damage);
         animator.SetTrigger(Blink);
+        ScoreSystem.Instance.EnemyHit();
     }
 
     protected override void Die()

@@ -220,6 +220,7 @@
           <e p="Health.cs" t="Include" />
           <e p="HealthBar.cs" t="Include" />
           <e p="HealthBarController.cs" t="Include" />
+          <e p="HitCombo.cs" t="Include" />
           <e p="Interfaces" t="Include">
             <e p="IDamageable.cs" t="Include" />
           </e>
@@ -228,6 +229,8 @@
           <e p="PlayerHealth.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
           <e p="RangeWeapon.cs" t="Include" />
+          <e p="Score.cs" t="Include" />
+          <e p="ScoreSystemUI.cs" t="Include" />
         </e>
       </e>
       <e p="AstarPathfindingProject.csproj" t="IncludeRecursive" />
