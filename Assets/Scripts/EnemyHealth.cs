@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class EnemyHealth : Health
 {
+    public static event Action EnemyHit = delegate { };
+
     #region SerializeFields
 
     [SerializeField] private float deadWaitTime;
@@ -26,7 +29,8 @@ public class EnemyHealth : Health
     {
         base.TakeDamage(damage);
         animator.SetTrigger(Blink);
-        ScoreSystem.Instance.EnemyHit();
+//        Score.Instance.EnemyHit();
+        EnemyHit();
     }
 
     protected override void Die()

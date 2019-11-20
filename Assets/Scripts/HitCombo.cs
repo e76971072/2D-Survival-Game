@@ -14,6 +14,11 @@ public class HitCombo
 
     #endregion
 
+    public HitCombo()
+    {
+        EnemyHealth.EnemyHit += IncreaseStreak;
+    }
+
     public void IncreaseStreak()
     {
         hitStreak += 1;
@@ -24,6 +29,6 @@ public class HitCombo
     {
         yield return new WaitForSeconds(resetTime);
         hitStreak = 0;
-        ScoreSystemUI.instance.UpdateComboText(hitStreak);
+        ScoreSystemUI.instance.UpdateComboText();
     }
 }

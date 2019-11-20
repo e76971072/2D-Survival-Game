@@ -11,7 +11,7 @@ public class Health : MonoBehaviour, IDamageable
     public static event Action<Health> OnHealthAdded = delegate { };
     public static event Action<Health> OnHealthRemoved = delegate { };
     public event Action<float> OnHealthPctChanged = delegate { };
-
+    
     #endregion
 
     #region NonSerializeFields

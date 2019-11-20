@@ -10,7 +10,7 @@ public class ScoreSystemUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
     [SerializeField] private int resetTime = 3;
-    
+
     public int scoreIncrement;
 
     #endregion
@@ -29,17 +29,19 @@ public class ScoreSystemUI : MonoBehaviour
         instance = this;
 
         comboTextAnimator = comboText.GetComponent<Animator>();
+        EnemyHealth.EnemyHit += UpdateComboText;
+        EnemyHealth.EnemyHit += UpdateScoreText;
     }
 
-    public void UpdateComboText(int hitStreak)
+    public void UpdateComboText()
     {
-        comboText.text = $"x{hitStreak}";
+        comboText.text = $"x{HitCombo.Instance.hitStreak}";
         comboTextAnimator.SetTrigger(Hit);
     }
 
-    public void UpdateScoreText(int score)
+    public void UpdateScoreText()
     {
-        scoreText.text = score.ToString();
+        scoreText.text = Score.Instance.currentScore.ToString();
     }
 
     public void CheckResetStreak()
