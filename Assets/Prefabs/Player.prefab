@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6363913643519872971}
   - component: {fileID: 11458670}
   - component: {fileID: 1349894246}
-  - component: {fileID: 673753248}
+  - component: {fileID: 919389917}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 367091413
   m_SortingLayer: 2
-  m_SortingOrder: 5
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7025651857757288288, guid: 483ecbd3df38324408258ca7629c324f,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -159,8 +159,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
---- !u!60 &673753248
-PolygonCollider2D:
+--- !u!61 &919389917
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -172,7 +172,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.011155084, y: -0.018663853}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -182,14 +182,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.049767576, y: 0.09051101}
-      - {x: -0.05124728, y: -0.09999021}
-      - {x: 0.062213182, y: -0.10000007}
-      - {x: 0.07129447, y: 0.035618465}
-      - {x: 0.0387222, y: 0.07022922}
-      - {x: -0.030133566, y: 0.09031169}
+  serializedVersion: 2
+  m_Size: {x: 0.122816324, y: 0.16267228}
+  m_EdgeRadius: 0
 --- !u!1 &476925653
 GameObject:
   m_ObjectHideFlags: 0

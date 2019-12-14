@@ -5,8 +5,10 @@ public class PlayerMovement : MonoBehaviour
     #region SerializeFields
 
     [SerializeField] private float speed;
+
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private float dodgeDistance;
+
+//    [SerializeField] private float dodgeDistance;
     [SerializeField] private LayerMask wallLayerMask;
     [SerializeField] private Transform weaponsHolder;
 
@@ -41,10 +43,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!Input.GetKeyDown(KeyCode.Space)) return;
 
-        RaycastHit2D hit2D = Physics2D.Raycast(transform.position, movement.normalized, dodgeDistance, wallLayerMask);
+//        RaycastHit2D hit2D = Physics2D.Raycast(transform.position, movement.normalized, dodgeDistance, wallLayerMask);
 
 //        Vector2 dodgePoint = hit2D.collider == null ?  : hit2D.point
-        
     }
 
     private void Move(float horizontal, float vertical)
@@ -53,19 +54,6 @@ public class PlayerMovement : MonoBehaviour
         movement = Time.deltaTime * speed * movement.normalized;
         playerTransform.position += (Vector3) movement;
     }
-
-//    private void Rotate()
-//    {
-//        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-//        if (mousePosition.x >= playerTransform.position.x)
-//        {
-//            spriteRenderer.flipX = false;
-//        }
-//        else if (mousePosition.x < playerTransform.position.x)
-//        {
-//            spriteRenderer.flipX = true;
-//        }
-//    }
 
     private void Rotate()
     {

@@ -29,26 +29,29 @@ public class ScoreSystemUI : MonoBehaviour
         instance = this;
 
         comboTextAnimator = comboText.GetComponent<Animator>();
+        
+        EnemyHealth.EnemyHit += HitCombo.IncreaseStreak;
+        EnemyHealth.EnemyHit += Score.IncreaseScore;
         EnemyHealth.EnemyHit += UpdateComboText;
         EnemyHealth.EnemyHit += UpdateScoreText;
     }
 
     public void UpdateComboText()
     {
-        comboText.text = $"x{HitCombo.Instance.hitStreak}";
+        comboText.text = $"x{HitCombo.hitStreak}";
         comboTextAnimator.SetTrigger(Hit);
     }
 
     public void UpdateScoreText()
     {
-        scoreText.text = Score.Instance.currentScore.ToString();
+        scoreText.text = Score.currentScore.ToString();
     }
 
     public void CheckResetStreak()
     {
-        if (HitCombo.Instance.resetStreak != null)
-            StopCoroutine(HitCombo.Instance.resetStreak);
-        HitCombo.Instance.resetStreak = HitCombo.Instance.ResetStreak(resetTime);
-        StartCoroutine(HitCombo.Instance.resetStreak);
+        if (HitCombo.resetStreak != null)
+            StopCoroutine(HitCombo.resetStreak);
+        HitCombo.resetStreak = HitCombo.ResetStreak(resetTime);
+        StartCoroutine(HitCombo.resetStreak);
     }
 }

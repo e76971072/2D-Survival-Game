@@ -1,4 +1,5 @@
 ﻿using System;
+using Pathfinding;
 using UnityEngine;
 
 public class EnemyHealth : Health
@@ -13,7 +14,6 @@ public class EnemyHealth : Health
 
     #region NonSerializeFields
 
-    private Collider2D enemyCollider;
     private Animator animator;
     private static readonly int Blink = Animator.StringToHash("Blink");
 
@@ -21,7 +21,6 @@ public class EnemyHealth : Health
 
     private void Awake()
     {
-        enemyCollider = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
     }
 
@@ -29,14 +28,29 @@ public class EnemyHealth : Health
     {
         base.TakeDamage(damage);
         animator.SetTrigger(Blink);
-//        Score.Instance.EnemyHit();
         EnemyHit();
     }
 
     protected override void Die()
     {
+        HideEnemy();
         RemoveHealthBar();
-        enemyCollider.enabled = false;
-        Destroy(transform.parent.gameObject, deadWaitTime);
+        Destroy(transform.gameObject, deadWaitTime);
+    }
+
+    private void HideEnemy()
+    {
+        GetComponent<AIPath>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<EnemyAttack>().enabled = false;
+    }
+
+    private void FadeEnemySprite()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Color spriteColor = spriteRenderer.color;
+        spriteColor.a = 0.2f;
+        spriteRenderer.color = spriteColor;
     }
 }

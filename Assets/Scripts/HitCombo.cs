@@ -1,31 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class HitCombo
+public static class HitCombo
 {
     #region SerializeFields
 
-    private static HitCombo instance;
-
-    public static HitCombo Instance => instance ?? (instance = new HitCombo());
-
-    public IEnumerator resetStreak;
-    public int hitStreak;
+    public static IEnumerator resetStreak;
+    public static int hitStreak;
 
     #endregion
 
-    public HitCombo()
-    {
-        EnemyHealth.EnemyHit += IncreaseStreak;
-    }
-
-    public void IncreaseStreak()
+    public static void IncreaseStreak()
     {
         hitStreak += 1;
         ScoreSystemUI.instance.CheckResetStreak();
     }
 
-    public IEnumerator ResetStreak(float resetTime)
+    public static IEnumerator ResetStreak(float resetTime)
     {
         yield return new WaitForSeconds(resetTime);
         hitStreak = 0;

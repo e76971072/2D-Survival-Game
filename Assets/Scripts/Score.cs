@@ -1,35 +1,13 @@
-﻿public class Score
+﻿public static class Score
 {
-    #region SerializeFields
-
-    private static Score instance;
-    
-    public static Score Instance => instance ?? (instance = new Score());
-    
-    #endregion
-
     #region NonSerializeFields
 
-    public int currentScore;
+    public static int currentScore;
 
     #endregion
 
-    public Score()
+    public static void IncreaseScore()
     {
-        EnemyHealth.EnemyHit += IncreaseScore;
-    }
-
-    public void EnemyHit()
-    {
-        HitCombo.Instance.IncreaseStreak();
-        IncreaseScore();
-
-        ScoreSystemUI.instance.UpdateComboText();
-        ScoreSystemUI.instance.UpdateScoreText();
-    }
-
-    public void IncreaseScore()
-    {
-        currentScore += ScoreSystemUI.instance.scoreIncrement * HitCombo.Instance.hitStreak;
+        currentScore += ScoreSystemUI.instance.scoreIncrement * HitCombo.hitStreak;
     }
 }
