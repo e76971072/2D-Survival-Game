@@ -6,12 +6,6 @@ public class EnemyHealth : Health
 {
     public static event Action EnemyHit = delegate { };
 
-    #region SerializeFields
-
-    [SerializeField] private float deadWaitTime;
-
-    #endregion
-
     #region NonSerializeFields
 
     private Animator animator;
@@ -26,16 +20,15 @@ public class EnemyHealth : Health
 
     public override void TakeDamage(int damage)
     {
-        base.TakeDamage(damage);
         animator.SetTrigger(Blink);
         EnemyHit();
+        base.TakeDamage(damage);
     }
 
     protected override void Die()
     {
         HideEnemy();
-        RemoveHealthBar();
-        Destroy(transform.gameObject, deadWaitTime);
+        base.Die();
     }
 
     private void HideEnemy()
@@ -52,5 +45,11 @@ public class EnemyHealth : Health
         Color spriteColor = spriteRenderer.color;
         spriteColor.a = 0.2f;
         spriteRenderer.color = spriteColor;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        EnemyHit = delegate { };
     }
 }

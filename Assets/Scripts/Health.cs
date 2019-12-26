@@ -7,11 +7,12 @@ public class Health : MonoBehaviour, IDamageable
     #region SerializeFields
 
     [SerializeField] protected int maxHealth = 100;
+    [SerializeField] protected float deadWaitTime = 2f;
 
     public static event Action<Health> OnHealthAdded = delegate { };
     public static event Action<Health> OnHealthRemoved = delegate { };
     public event Action<float> OnHealthPctChanged = delegate { };
-    
+
     #endregion
 
     #region NonSerializeFields
@@ -38,14 +39,14 @@ public class Health : MonoBehaviour, IDamageable
         }
     }
 
-    protected void RemoveHealthBar()
-    {
-        OnHealthRemoved(this);
-    }
-
     protected virtual void Die()
     {
-        RemoveHealthBar();
-        Destroy(gameObject);
+        // OnHealthRemoved(this);
+        Destroy(gameObject, deadWaitTime);
+    }
+
+    protected virtual void OnDisable()
+    {
+        OnHealthRemoved(this);
     }
 }

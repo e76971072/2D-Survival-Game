@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthBarController : MonoBehaviour
 {
@@ -17,15 +18,24 @@ public class HealthBarController : MonoBehaviour
 
     private void Awake()
     {
+        healthBars.Clear();
         Health.OnHealthAdded += AddHealthBar;
         Health.OnHealthRemoved += RemoveHealthBar;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     private void AddHealthBar(Health health)
     {
         if (healthBars.ContainsKey(health)) return;
 
-        var newHealthBar = Instantiate(healthBar, transform);
+        var newHealthBar = Instantiate(healthBar, gameObject.transform);
         healthBars.Add(health, newHealthBar);
         newHealthBar.SetHealth(health);
     }
@@ -34,7 +44,11 @@ public class HealthBarController : MonoBehaviour
     {
         if (!healthBars.ContainsKey(health)) return;
 
-        Destroy(healthBars[health].gameObject);
+        if (healthBars[health] != null) Destroy(healthBars[health].gameObject);
         healthBars.Remove(health);
+        if (healthBars.Count != 0) return;
+
+        Health.OnHealthAdded -= AddHealthBar;
+        Health.OnHealthRemoved -= RemoveHealthBar;
     }
 }

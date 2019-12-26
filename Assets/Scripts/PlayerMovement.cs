@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.OnGameLost += DisableOnDead;
         playerTransform = transform;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -61,5 +62,11 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = (mousePosition - (Vector2) playerTransform.position).normalized;
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         weaponsHolder.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    private void DisableOnDead()
+    {
+        GetComponent<PlayerMovement>().enabled = false;
+        Debug.Log("Movement Disabled");
     }
 }

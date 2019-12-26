@@ -70,7 +70,7 @@ public class HealthBar : MonoBehaviour
 
     private void LateUpdate()
     {
-        var worldToScreenPoint = GameManager.mainCamera
+        var worldToScreenPoint = GameManager.Instance.mainCamera
             .WorldToScreenPoint(health.transform.position + positionOffset * Vector3.up);
         transform.position = worldToScreenPoint;
     }
