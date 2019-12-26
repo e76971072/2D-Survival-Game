@@ -6,6 +6,11 @@
 
     #endregion
 
+    public static void ResetScore()
+    {
+        currentScore = 0;
+    }
+
     public static void IncreaseScore()
     {
         currentScore += ScoreSystemUI.instance.scoreIncrement * HitCombo.hitStreak;

@@ -10,6 +10,11 @@ public static class HitCombo
 
     #endregion
 
+    public static void ResetStreak()
+    {
+        hitStreak = 0;
+    }
+
     public static void IncreaseStreak()
     {
         hitStreak += 1;
@@ -21,5 +26,6 @@ public static class HitCombo
         yield return new WaitForSeconds(resetTime);
         hitStreak = 0;
         ScoreSystemUI.instance.UpdateComboText();
+        GameManager.Instance.LoseGame();
     }
 }

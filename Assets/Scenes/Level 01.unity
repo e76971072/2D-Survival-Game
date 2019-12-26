@@ -13987,6 +13987,16 @@ PrefabInstance:
       propertyPath: damage
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 6363913643519872971, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363913643519872971, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11a196208aec8d40a41d6ffd0c9c6a1, type: 3}
 --- !u!1 &1411960497

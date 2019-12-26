@@ -29,6 +29,11 @@ public class ScoreSystemUI : MonoBehaviour
         instance = this;
 
         comboTextAnimator = comboText.GetComponent<Animator>();
+
+        Score.ResetScore();
+        HitCombo.ResetStreak();
+        
+        GameManager.OnGameLost += StopStreakCoroutineOnDead;
         
         EnemyHealth.EnemyHit += HitCombo.IncreaseStreak;
         EnemyHealth.EnemyHit += Score.IncreaseScore;
@@ -42,7 +47,7 @@ public class ScoreSystemUI : MonoBehaviour
         comboTextAnimator.SetTrigger(Hit);
     }
 
-    public void UpdateScoreText()
+    private void UpdateScoreText()
     {
         scoreText.text = Score.currentScore.ToString();
     }
@@ -53,5 +58,10 @@ public class ScoreSystemUI : MonoBehaviour
             StopCoroutine(HitCombo.resetStreak);
         HitCombo.resetStreak = HitCombo.ResetStreak(resetTime);
         StartCoroutine(HitCombo.resetStreak);
+    }
+
+    private void StopStreakCoroutineOnDead()
+    {
+        StopCoroutine(HitCombo.resetStreak);
     }
 }

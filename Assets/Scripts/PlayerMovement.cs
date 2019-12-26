@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private void DisableOnDead()
     {
         GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<Animator>().enabled = false;
         Debug.Log("Movement Disabled");
     }
 }
