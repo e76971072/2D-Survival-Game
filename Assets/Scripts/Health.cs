@@ -41,11 +41,10 @@ public class Health : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
-        // OnHealthRemoved(this);
         Destroy(gameObject, deadWaitTime);
     }
 
-    protected virtual void OnDisable()
+    protected void OnDisable()
     {
         OnHealthRemoved(this);
     }

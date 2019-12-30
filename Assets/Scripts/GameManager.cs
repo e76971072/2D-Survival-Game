@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public static event Action OnGameLost = delegate { };
 
-    public Camera mainCamera;
+    [HideInInspector] public Camera mainCamera;
 
     private void Awake()
     {

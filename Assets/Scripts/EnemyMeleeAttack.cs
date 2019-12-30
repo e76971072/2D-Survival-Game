@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class EnemyAttack : MeleeAttack
+public class EnemyMeleeAttack : MeleeAttack
 {
     protected override bool CanDamage()
     {

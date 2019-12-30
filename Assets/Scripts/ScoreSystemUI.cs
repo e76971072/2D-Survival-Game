@@ -32,9 +32,9 @@ public class ScoreSystemUI : MonoBehaviour
 
         Score.ResetScore();
         HitCombo.ResetStreak();
-        
+
         GameManager.OnGameLost += StopStreakCoroutineOnDead;
-        
+
         EnemyHealth.EnemyHit += HitCombo.IncreaseStreak;
         EnemyHealth.EnemyHit += Score.IncreaseScore;
         EnemyHealth.EnemyHit += UpdateComboText;
@@ -62,6 +62,9 @@ public class ScoreSystemUI : MonoBehaviour
 
     private void StopStreakCoroutineOnDead()
     {
-        StopCoroutine(HitCombo.resetStreak);
+        if (HitCombo.resetStreak != null)
+        {
+            StopCoroutine(HitCombo.resetStreak);
+        }
     }
 }
