@@ -16,7 +16,6 @@ public abstract class MeleeAttack : MonoBehaviour
     #region NonSerializeFields
 
     protected float timer;
-    private Collider2D[] targetResults;
     private Animator animator;
     private readonly int attackParameter = Animator.StringToHash("Attack");
 
@@ -24,7 +23,6 @@ public abstract class MeleeAttack : MonoBehaviour
 
     protected virtual void Awake()
     {
-        targetResults = new Collider2D[50];
         animator = GetComponent<Animator>();
         timer = timeBetweenAttack;
     }
@@ -37,6 +35,7 @@ public abstract class MeleeAttack : MonoBehaviour
     protected void Attack()
     {
         ResetAttackTime();
+        Collider2D[] targetResults = new Collider2D[50];
         var targetCount =
             Physics2D.OverlapCircleNonAlloc(attackPosition.position, attackRange, targetResults, targetLayerMask);
         for (var i = 0; i < targetCount; i++)
@@ -63,7 +62,7 @@ public abstract class MeleeAttack : MonoBehaviour
 
     protected virtual bool CanDamage()
     {
-        return Input.GetButtonDown("Fire1") && timer >= timeBetweenAttack && IsIdle();
+        return Input.GetButtonDown("Fire1") && timer >= timeBetweenAttack;
     }
 
     private void OnDrawGizmosSelected()

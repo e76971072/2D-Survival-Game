@@ -1,59 +1,40 @@
 ﻿using UnityEngine;
 
-public class RangeProjectile : MonoBehaviour
+public abstract class RangeProjectile : RangeAttack
 {
     #region SerializeFields
 
-    [SerializeField] private float firingRate;
-    [SerializeField] protected GameObject projectilePrefab;
+    [SerializeField] protected ProjectileLogic projectilePrefab;
     [SerializeField] private float shootForce;
 
     #endregion
 
     #region NonSerializeFields
 
-    private float nextTimeToFire;
-    private Transform targetTransform;
+    protected Transform muzzleTransform;
 
     #endregion
 
-    protected void Awake()
+    protected virtual void Awake()
     {
-        targetTransform = GetTargetTransform();
+        muzzleTransform = transform;
     }
 
-    protected virtual void Update()
-    {
-        if (CantShoot()) return;
-
-        nextTimeToFire = Time.time + 1f / firingRate;
-        Shoot();
-    }
-
-    protected virtual bool CantShoot()
-    {
-        return !(Time.time >= nextTimeToFire);
-    }
-
-    protected virtual void Shoot()
+    protected override void Shoot()
     {
         Vector2 targetDirection = GetTargetDirection();
 
-        GameObject shotProjectile = Instantiate(projectilePrefab, transform.position,
+        ProjectileLogic shotProjectile = Instantiate(projectilePrefab, muzzleTransform.position,
             Quaternion.FromToRotation(Vector2.up, targetDirection));
+        shotProjectile.SetOwner(gameObject.layer);
 
-        Destroy(shotProjectile, 5f);
+        Destroy(shotProjectile.gameObject, 5f);
         Vector2 moveForce = targetDirection * shootForce;
-        shotProjectile.GetComponent<Rigidbody2D>().AddForce(moveForce);
+        shotProjectile.GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Impulse);
     }
 
     protected virtual Vector3 GetTargetDirection()
     {
-        return (targetTransform.position - transform.position).normalized;
-    }
-
-    protected virtual Transform GetTargetTransform()
-    {
-        return GameObject.FindWithTag("Player").transform;
+        return Vector3.right;
     }
 }

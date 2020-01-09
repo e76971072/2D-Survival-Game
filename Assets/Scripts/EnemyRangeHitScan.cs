@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyRangeHitScan : RangeAttack
+public class EnemyRangeHitScan : RangeHitScan
 {
     #region NonSerializeFields
 
@@ -10,6 +10,7 @@ public class EnemyRangeHitScan : RangeAttack
 
     private void Awake()
     {
+        muzzleTransform = transform;
         playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
@@ -27,22 +28,9 @@ public class EnemyRangeHitScan : RangeAttack
 
     protected override bool CheckHit(out RaycastHit2D hitInfo)
     {
-        Vector2 enemyPosition = transform.position;
-        Vector2 playerDirection = ((Vector2) playerTransform.position - enemyPosition);
-        hitInfo = Physics2D.Raycast(enemyPosition, playerDirection, shootingRange);
+        Vector2 position = muzzleTransform.position;
+        Vector2 targetDirection = ((Vector2) playerTransform.position - position);
+        hitInfo = Physics2D.Raycast(position, targetDirection, shootingRange, targetLayer);
         return !hitInfo;
-    }
-
-    protected override void Shoot()
-    {
-        if (CheckHit(out var hitInfo)) return;
-
-        var hitParticle = Instantiate(gunHitEffect, hitInfo.point,
-            Quaternion.FromToRotation(Vector2.up, hitInfo.normal));
-        Destroy(hitParticle, hitEffectDuration);
-        if (hitInfo.transform.CompareTag("Player"))
-        {
-            hitInfo.transform.GetComponent<IDamageable>().TakeDamage(damage);
-        }
     }
 }

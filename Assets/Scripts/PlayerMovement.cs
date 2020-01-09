@@ -1,13 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     #region SerializeFields
 
     [SerializeField] private float speed;
-
-    [SerializeField] private Camera mainCamera;
-
+    
 //    [SerializeField] private float dodgeDistance;
     [SerializeField] private LayerMask wallLayerMask;
     [SerializeField] private Transform weaponsHolder;
@@ -35,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
+        CheckFlip();
         Move(h, v);
         Rotate();
         Dodge();
@@ -49,6 +49,12 @@ public class PlayerMovement : MonoBehaviour
 //        Vector2 dodgePoint = hit2D.collider == null ?  : hit2D.point
     }
 
+    private void CheckFlip()
+    {
+        if (Math.Abs(h) < Mathf.Epsilon) return;
+        spriteRenderer.flipX = h < 0;
+    }
+
     private void Move(float horizontal, float vertical)
     {
         movement.Set(horizontal, vertical);
@@ -58,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Rotate()
     {
-        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePosition = GameManager.Instance.mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = (mousePosition - (Vector2) playerTransform.position).normalized;
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         weaponsHolder.rotation = Quaternion.AngleAxis(angle, Vector3.forward);

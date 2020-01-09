@@ -26,6 +26,6 @@ public static class HitCombo
         yield return new WaitForSeconds(resetTime);
         hitStreak = 0;
         ScoreSystemUI.instance.UpdateComboText();
-        GameManager.Instance.LoseGame();
+        // GameManager.Instance.LoseGame();
     }
 }

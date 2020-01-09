@@ -23,14 +23,6 @@ public class HealthBarController : MonoBehaviour
         Health.OnHealthRemoved += RemoveHealthBar;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-    }
-
     private void AddHealthBar(Health health)
     {
         if (healthBars.ContainsKey(health)) return;

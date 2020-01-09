@@ -15,7 +15,8 @@ public class EnemyHealth : Health
 
     private void Awake()
     {
-        GameManager.OnGameLost += ClearEventOnPlayerDead;
+        GameManager.OnGameLost += ClearEvent;
+        GameManager.OnGameReload += ClearEvent;
         animator = GetComponent<Animator>();
     }
 
@@ -37,9 +38,9 @@ public class EnemyHealth : Health
         GetComponent<AIPath>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
-        if (GetComponent<MeleeWeapon>())
+        if (GetComponent<MeleeAttack>())
         {
-            GetComponent<MeleeWeapon>().enabled = false;
+            GetComponent<MeleeAttack>().enabled = false;
             return;
         }
 
@@ -54,9 +55,11 @@ public class EnemyHealth : Health
         spriteRenderer.color = spriteColor;
     }
 
-    private void ClearEventOnPlayerDead()
+    private void ClearEvent()
     {
-        EnemyHit = delegate { };
+        if (EnemyHit == null) return;
+        
+        EnemyHit = null;
         Debug.Log("EnemyHit event cleared!");
     }
 }
