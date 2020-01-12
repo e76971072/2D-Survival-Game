@@ -10,7 +10,7 @@ public class PlayerHealth : Health
     protected override void Die()
     {
         base.Die();
-        GameManager.Instance.LoseGame();
+        GameManager.Instance.GameLost();
     }
 
     private void DisableOnDead()

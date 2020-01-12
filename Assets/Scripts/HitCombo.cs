@@ -1,31 +1,30 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Timers;
 
-public static class HitCombo
+public class HitCombo
 {
     #region SerializeFields
 
-    public static IEnumerator resetStreak;
-    public static int hitStreak;
+    public static HitCombo Instance => _instance ?? (_instance = new HitCombo());
+
+    private static HitCombo _instance;
+ 
+    public static event Action OnTimerPassed = delegate { };
+    public static event Action OnTimerEnded = delegate { };
+    
+    public int hitCombo;
+    private float maxResetTime;
 
     #endregion
 
-    public static void ResetStreak()
+    public void ResetStreak()
     {
-        hitStreak = 0;
+        hitCombo = 0;
     }
 
-    public static void IncreaseStreak()
+    public void IncreaseStreak()
     {
-        hitStreak += 1;
-        ScoreSystemUI.instance.CheckResetStreak();
-    }
-
-    public static IEnumerator ResetStreak(float resetTime)
-    {
-        yield return new WaitForSeconds(resetTime);
-        hitStreak = 0;
-        ScoreSystemUI.instance.UpdateComboText();
-        // GameManager.Instance.LoseGame();
+        hitCombo += 1;
     }
 }

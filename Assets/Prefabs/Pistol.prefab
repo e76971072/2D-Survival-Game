@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4992171241094300}
   - component: {fileID: 212773471607890444}
-  - component: {fileID: 114800020335165822}
+  - component: {fileID: 4698554209901776521}
+  - component: {fileID: 3900261497210751625}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -82,7 +83,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114800020335165822
+--- !u!114 &4698554209901776521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167626684780544}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8456df5e3cfc4e11ace349d60b84b6ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firingRate: 2
+  projectilePrefab: {fileID: -7374236164503233608, guid: 1a4c0bda1b8e0464a8d761b6dea181be,
+    type: 3}
+  shootForce: 2
+--- !u!114 &3900261497210751625
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,12 +108,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1167626684780544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1960f8bb5e5f3b04daaed95f155a2741, type: 3}
+  m_Script: {fileID: 11500000, guid: 139506d21239416da6249388ba6f044e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firingRate: 2
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  targetTag: Enemy
+  hitEffectDuration: 0.5
   damage: 50
-  firingRate: 50
-  shootingRange: 50
+  shootingRange: Infinity
   gunHitEffect: {fileID: 1828881407812472, guid: f969e7e866332ff4ca0c3ea025a22646,
     type: 3}
 --- !u!1 &1574916425867700

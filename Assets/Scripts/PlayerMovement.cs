@@ -1,14 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
     #region SerializeFields
 
     [SerializeField] private float speed;
     
-//    [SerializeField] private float dodgeDistance;
-    [SerializeField] private LayerMask wallLayerMask;
     [SerializeField] private Transform weaponsHolder;
 
     #endregion
@@ -16,57 +15,45 @@ public class PlayerMovement : MonoBehaviour
     #region NonSerializeFields
 
     private Vector2 movement;
-    private float h, v;
     private Transform playerTransform;
     private SpriteRenderer spriteRenderer;
+    private PlayerInput playerInput;
 
     #endregion
 
     private void Awake()
     {
-        GameManager.OnGameLost += DisableOnDead;
         playerTransform = transform;
+        
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerInput = GetComponent<PlayerInput>();
+        
+        GameManager.OnGameLost += DisableOnDead;
     }
 
     private void FixedUpdate()
     {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
-
-        CheckFlip();
-        Move(h, v);
-        Rotate();
-        Dodge();
+        CheckFlip(playerInput.h);
+        Move(playerInput.h, playerInput.v);
+        Rotate(playerInput.rotateDirection);
     }
 
-    private void Dodge()
-    {
-        if (!Input.GetKeyDown(KeyCode.Space)) return;
-
-//        RaycastHit2D hit2D = Physics2D.Raycast(transform.position, movement.normalized, dodgeDistance, wallLayerMask);
-
-//        Vector2 dodgePoint = hit2D.collider == null ?  : hit2D.point
-    }
-
-    private void CheckFlip()
+    private void CheckFlip(float h)
     {
         if (Math.Abs(h) < Mathf.Epsilon) return;
         spriteRenderer.flipX = h < 0;
     }
 
-    private void Move(float horizontal, float vertical)
+    private void Move(float h, float v)
     {
-        movement.Set(horizontal, vertical);
+        movement.Set(h, v);
         movement = Time.deltaTime * speed * movement.normalized;
         playerTransform.position += (Vector3) movement;
     }
 
-    private void Rotate()
+    private void Rotate(Vector2 rotateDirection)
     {
-        Vector2 mousePosition = GameManager.Instance.mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = (mousePosition - (Vector2) playerTransform.position).normalized;
-        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        var angle = Mathf.Atan2(rotateDirection.y, rotateDirection.x) * Mathf.Rad2Deg;
         weaponsHolder.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 

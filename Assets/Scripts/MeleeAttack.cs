@@ -45,7 +45,7 @@ public abstract class MeleeAttack : MonoBehaviour
         }
     }
 
-    private void ResetAttackTime()
+    protected void ResetAttackTime()
     {
         timer = 0f;
     }

@@ -13,6 +13,6 @@
 
     public static void IncreaseScore()
     {
-        currentScore += ScoreSystemUI.instance.scoreIncrement * HitCombo.hitStreak;
+        currentScore += ScoreSystemUI.instance.scoreIncrement * HitCombo.Instance.hitCombo;
     }
 }

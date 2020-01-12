@@ -23,4 +23,9 @@ public class MeleeWeapon : MeleeAttack
         GetComponent<Animator>().enabled = false;
         Debug.Log("Weapon Disabled");
     }
+
+    private void OnDisable()
+    {
+        ResetAttackTime();
+    }
 }

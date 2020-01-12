@@ -1,5 +1,8 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreSystemUI : MonoBehaviour
 {
@@ -9,7 +12,8 @@ public class ScoreSystemUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
-    [SerializeField] private int resetTime = 3;
+    [SerializeField] private Slider comboTimerSlider;
+    [SerializeField] private float maxResetTime = 3;
 
     public int scoreIncrement;
 
@@ -17,8 +21,12 @@ public class ScoreSystemUI : MonoBehaviour
 
     #region NonSerializeFields
 
+    private float currentTimer;
     private Animator comboTextAnimator;
     private static readonly int Hit = Animator.StringToHash("Hit");
+    private static readonly int ShouldFlick = Animator.StringToHash("ShouldFlick");
+    private static readonly int FlickSpeed = Animator.StringToHash("FlickSpeed");
+    private static readonly int EndCombo = Animator.StringToHash("EndCombo");
 
     #endregion
 
@@ -30,20 +38,21 @@ public class ScoreSystemUI : MonoBehaviour
 
         comboTextAnimator = comboText.GetComponent<Animator>();
 
+        comboTimerSlider.maxValue = maxResetTime;
+        
         Score.ResetScore();
-        HitCombo.ResetStreak();
+        HitCombo.Instance.ResetStreak();
 
-        GameManager.OnGameLost += StopStreakCoroutineOnDead;
-
-        EnemyHealth.EnemyHit += HitCombo.IncreaseStreak;
+        EnemyHealth.EnemyHit += HitCombo.Instance.IncreaseStreak;
         EnemyHealth.EnemyHit += Score.IncreaseScore;
         EnemyHealth.EnemyHit += UpdateComboText;
         EnemyHealth.EnemyHit += UpdateScoreText;
+        EnemyHealth.EnemyHit += TimerCoroutineController;
     }
 
-    public void UpdateComboText()
+    private void UpdateComboText()
     {
-        comboText.text = $"x{HitCombo.hitStreak}";
+        comboText.text = $"x{HitCombo.Instance.hitCombo}";
         comboTextAnimator.SetTrigger(Hit);
     }
 
@@ -52,19 +61,40 @@ public class ScoreSystemUI : MonoBehaviour
         scoreText.text = Score.currentScore.ToString();
     }
 
-    public void CheckResetStreak()
+    private void UpdateComboTimerText()
     {
-        if (HitCombo.resetStreak != null)
-            StopCoroutine(HitCombo.resetStreak);
-        HitCombo.resetStreak = HitCombo.ResetStreak(resetTime);
-        StartCoroutine(HitCombo.resetStreak);
+        comboTimerSlider.value = currentTimer;
     }
 
-    private void StopStreakCoroutineOnDead()
+    private void TimerCoroutineController()
     {
-        if (HitCombo.resetStreak != null)
+        StopAllCoroutines();
+        StartCoroutine(ComboTimer());
+    }
+
+    private IEnumerator ComboTimer()
+    {
+        currentTimer = maxResetTime;
+        comboTextAnimator.SetBool(ShouldFlick, false);
+        comboTextAnimator.SetFloat(FlickSpeed, 0);
+        while (currentTimer > 0)
         {
-            StopCoroutine(HitCombo.resetStreak);
+            UpdateComboTimerText();
+            currentTimer -= Time.deltaTime;
+            if (currentTimer <= maxResetTime / 2)
+            {
+                comboTextAnimator.SetBool(ShouldFlick, true);
+                comboTextAnimator.SetFloat(FlickSpeed, maxResetTime / currentTimer);
+            }
+            yield return null;
         }
+        OnComboEnd();
+    }
+
+    private void OnComboEnd()
+    {
+        comboTextAnimator.SetBool(EndCombo, true);
+        StartCoroutine(UIManager.Instance.FadeLoseMenu());
+        GameManager.Instance.GameLost();
     }
 }

@@ -4,30 +4,29 @@ using UnityEngine;
 public class WeaponSelector : MonoBehaviour
 {
     private List<GameObject> weaponsList = new List<GameObject>();
+    private Dictionary<int, GameObject> weaponDictionary = new Dictionary<int, GameObject>();
     private int targetWeapon;
+    private GameObject currentWeapon;
     
     private void Awake()
     {
-        foreach (Transform child in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            weaponsList.Add(child.gameObject);
+            GameObject weapon = transform.GetChild(i).gameObject;
+            weaponDictionary.Add(i + 1, weapon);
+            
+            if (!weapon.activeSelf) continue;
+            currentWeapon = weapon;
         }
     }
 
     private void Update()
     {
         if (!int.TryParse(Input.inputString, out targetWeapon)) return;
-        
-        if (!(targetWeapon <= weaponsList.Count)) return;
 
-        for (int i = 0; i < weaponsList.Count; i++)
-        {
-            if (i == targetWeapon - 1)
-            {
-                weaponsList[i].SetActive(true);
-                continue;
-            }
-            weaponsList[i].SetActive(false);
-        }
+        if (!weaponDictionary.ContainsKey(targetWeapon)) return;
+        currentWeapon.SetActive(false);
+        currentWeapon = weaponDictionary[targetWeapon];
+        currentWeapon.SetActive(true);
     }
 }

@@ -13,8 +13,11 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public Camera mainCamera;
 
+    [SerializeField] private PlayerInput playerInput;
+
     private void Awake()
     {
+        Time.timeScale = 1;
         OnGameLost = delegate { };
         if (_instance != null && _instance != this)
         {
@@ -31,13 +34,15 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (!Input.GetKeyDown(KeyCode.R)) return;
-        
+
         OnGameReload();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        UIManager.Instance.Restart();
     }
 
-    public void LoseGame()
+    public void GameLost()
     {
+        Time.timeScale = 0;
+        playerInput.enabled = false;
         OnGameLost();
     }
 }

@@ -20,11 +20,6 @@ public abstract class RangeHitScan : RangeAttack
 
     #endregion
 
-    protected override bool CantShoot()
-    {
-        return !Input.GetButton("Fire1") || !(Time.time >= nextTimeToFire);
-    }
-
     protected override void Shoot()
     {
         if (CheckHit(out RaycastHit2D hitInfo)) return;
