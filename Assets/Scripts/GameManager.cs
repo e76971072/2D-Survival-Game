@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,8 +40,9 @@ public class GameManager : MonoBehaviour
 
     public void GameLost()
     {
-        Time.timeScale = 0;
         playerInput.enabled = false;
+        Time.timeScale = 0;
+        StartCoroutine(UIManager.Instance.FadeLoseMenu());
         OnGameLost();
     }
 }

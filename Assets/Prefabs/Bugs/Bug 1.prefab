@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenAttack: 2
-  damage: 50
+  damage: 5
   attackRange: 1
   targetLayerMask:
     serializedVersion: 2

@@ -53,4 +53,9 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("Main Menu");
     }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Scenes/Level 01");
+    }
 }

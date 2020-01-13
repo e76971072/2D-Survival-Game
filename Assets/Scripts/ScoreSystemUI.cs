@@ -94,7 +94,6 @@ public class ScoreSystemUI : MonoBehaviour
     private void OnComboEnd()
     {
         comboTextAnimator.SetBool(EndCombo, true);
-        StartCoroutine(UIManager.Instance.FadeLoseMenu());
         GameManager.Instance.GameLost();
     }
 }
