@@ -11,10 +11,11 @@ public class ProjectileLogic : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == owner) return;
-        if (other.GetComponent<IDamageable>() != null)
+        if (other.GetComponent<IHealth>() != null)
         {
-            other.GetComponent<IDamageable>().TakeDamage(damage);
+            other.GetComponent<IHealth>().ModifyHealth(-damage);
         }
+        
         Destroy(gameObject);
         GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         Destroy(explosion, 5f);
@@ -23,5 +24,11 @@ public class ProjectileLogic : MonoBehaviour
     public void SetOwner(int ownerLayerMask)
     {
         owner = ownerLayerMask;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, Vector2.one);
     }
 }

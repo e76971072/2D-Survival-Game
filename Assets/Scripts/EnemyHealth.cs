@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using Pathfinding;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class EnemyHealth : Health
 
     private Animator animator;
     private static readonly int Blink = Animator.StringToHash("Blink");
+    private CinemachineImpulseSource impulseSource;
 
     #endregion
 
@@ -17,14 +19,17 @@ public class EnemyHealth : Health
     {
         GameManager.OnGameLost += ClearEvent;
         GameManager.OnGameReload += ClearEvent;
+        
         animator = GetComponent<Animator>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
-    public override void TakeDamage(int damage)
+    public override void ModifyHealth(int damage)
     {
         animator.SetTrigger(Blink);
         EnemyHit();
-        base.TakeDamage(damage);
+        impulseSource.GenerateImpulse();
+        base.ModifyHealth(damage);
     }
 
     protected override void Die()

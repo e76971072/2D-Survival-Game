@@ -15,4 +15,9 @@ public class WeaponRangeHitScan : RangeHitScan
     {
         return !playerInput.canShoot || !(Time.time >= nextTimeToFire);
     }
+
+    private void OnDisable()
+    {
+        bulletLineRenderer.enabled = false;
+    }
 }

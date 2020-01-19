@@ -41,7 +41,7 @@ MonoBehaviour:
   firingRate: 1
   projectilePrefab: {fileID: -7374236164503233608, guid: 1a4c0bda1b8e0464a8d761b6dea181be,
     type: 3}
-  shootForce: 10
+  shootForce: 5
 --- !u!1001 &2556889184834168413
 PrefabInstance:
   m_ObjectHideFlags: 0

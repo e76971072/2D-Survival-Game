@@ -41,18 +41,13 @@ public abstract class MeleeAttack : MonoBehaviour
         for (var i = 0; i < targetCount; i++)
         {
             var targetCollider2D = targetResults[i];
-            targetCollider2D.GetComponent<IDamageable>().TakeDamage(damage);
+            targetCollider2D.GetComponent<IHealth>().ModifyHealth(-damage);
         }
     }
 
     protected void ResetAttackTime()
     {
         timer = 0f;
-    }
-
-    private bool IsIdle()
-    {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
     }
 
     protected void PlayAttackAnimation()
@@ -65,7 +60,7 @@ public abstract class MeleeAttack : MonoBehaviour
         return Input.GetButtonDown("Fire1") && timer >= timeBetweenAttack;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPosition.position, attackRange);

@@ -18,7 +18,7 @@ public abstract class RangeHitScan : RangeAttack
     #region NonSerializeFields
 
     protected Transform muzzleTransform;
-    private LineRenderer bulletLineRenderer;
+    protected LineRenderer bulletLineRenderer;
 
     #endregion
 
@@ -39,7 +39,7 @@ public abstract class RangeHitScan : RangeAttack
         Destroy(hitParticle, hitEffectDuration);
         if (hitInfo.transform.CompareTag(targetTag))
         {
-            hitInfo.transform.GetComponent<IDamageable>().TakeDamage(damage);
+            hitInfo.transform.GetComponent<IHealth>().ModifyHealth(-damage);
         }
     }
 
