@@ -27,7 +27,5 @@ public abstract class RangeAttack : MonoBehaviour
         return !Input.GetButton("Fire1") || !(Time.time >= nextTimeToFire);
     }
 
-    protected virtual void Shoot()
-    {
-    }
+    protected abstract void Shoot();
 }

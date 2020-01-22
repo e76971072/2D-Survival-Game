@@ -46,7 +46,7 @@ public class Health : MonoBehaviour, IHealth
         Destroy(gameObject, deadWaitTime);
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         OnHealthRemoved(this);
     }

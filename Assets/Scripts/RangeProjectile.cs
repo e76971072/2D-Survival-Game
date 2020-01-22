@@ -33,8 +33,5 @@ public abstract class RangeProjectile : RangeAttack
         shotProjectile.GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Impulse);
     }
 
-    protected virtual Vector3 GetTargetDirection()
-    {
-        return Vector3.right;
-    }
+    protected virtual Vector3 GetTargetDirection() => Vector3.right;
 }

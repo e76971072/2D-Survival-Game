@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-
-    public static GameManager Instance => _instance;
+    public static GameManager Instance { get; private set; }
 
     public static event Action OnGameLost = delegate { };
     public static event Action OnGameReload = delegate { };
 
-    [HideInInspector] public Camera mainCamera;
+    public Camera mainCamera;
 
     [SerializeField] private PlayerInput playerInput;
 
@@ -18,16 +16,15 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         OnGameLost = delegate { };
-        if (_instance != null && _instance != this)
+        OnGameReload = delegate { };
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
-
-        mainCamera = Camera.main;
     }
 
     private void Update()

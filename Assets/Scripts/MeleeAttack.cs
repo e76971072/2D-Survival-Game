@@ -5,7 +5,7 @@ public abstract class MeleeAttack : MonoBehaviour
 {
     #region SerializeFields
 
-    [SerializeField] protected float timeBetweenAttack;
+    [SerializeField] protected float attackRate;
     [SerializeField] protected int damage;
     [SerializeField] protected float attackRange = 1f;
     [SerializeField] protected LayerMask targetLayerMask;
@@ -15,7 +15,7 @@ public abstract class MeleeAttack : MonoBehaviour
 
     #region NonSerializeFields
 
-    protected float timer;
+    protected float nextTimeToAttack;
     private Animator animator;
     private readonly int attackParameter = Animator.StringToHash("Attack");
 
@@ -24,30 +24,23 @@ public abstract class MeleeAttack : MonoBehaviour
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
-        timer = timeBetweenAttack;
     }
 
     protected virtual void Update()
     {
-        timer += Time.deltaTime;
+        nextTimeToAttack = Time.time + 1f / attackRate;
     }
 
     protected void Attack()
     {
-        ResetAttackTime();
         Collider2D[] targetResults = new Collider2D[50];
         var targetCount =
             Physics2D.OverlapCircleNonAlloc(attackPosition.position, attackRange, targetResults, targetLayerMask);
         for (var i = 0; i < targetCount; i++)
         {
-            var targetCollider2D = targetResults[i];
+            Collider2D targetCollider2D = targetResults[i];
             targetCollider2D.GetComponent<IHealth>().ModifyHealth(-damage);
         }
-    }
-
-    protected void ResetAttackTime()
-    {
-        timer = 0f;
     }
 
     protected void PlayAttackAnimation()
@@ -57,7 +50,7 @@ public abstract class MeleeAttack : MonoBehaviour
 
     protected virtual bool CanDamage()
     {
-        return Input.GetButtonDown("Fire1") && timer >= timeBetweenAttack;
+        return Input.GetButton("Fire1") && Time.time >= nextTimeToAttack;
     }
 
     private void OnDrawGizmos()

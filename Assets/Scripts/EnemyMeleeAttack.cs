@@ -5,7 +5,7 @@ public class EnemyMeleeAttack : MeleeAttack
 {
     protected override bool CanDamage()
     {
-        return timer >= timeBetweenAttack;
+        return Time.time >= nextTimeToAttack;
     }
 
     private void OnCollisionStay2D(Collision2D other)

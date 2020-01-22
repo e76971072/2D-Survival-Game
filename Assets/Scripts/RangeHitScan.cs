@@ -48,7 +48,7 @@ public abstract class RangeHitScan : RangeAttack
         bulletLineRenderer.SetPosition(0, muzzleTransform.position);
         bulletLineRenderer.SetPosition(1, hitInfo.point);
         bulletLineRenderer.enabled = true;
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSeconds(0.1f);
         bulletLineRenderer.enabled = false;
     }
 

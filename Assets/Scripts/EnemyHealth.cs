@@ -62,9 +62,19 @@ public class EnemyHealth : Health
 
     private void ClearEvent()
     {
+        Debug.Log(EnemyHit == null);
         if (EnemyHit == null) return;
         
         EnemyHit = null;
+        GameManager.OnGameLost -= ClearEvent;
+        GameManager.OnGameReload -= ClearEvent;
         Debug.Log("EnemyHit event cleared!");
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        GameManager.OnGameLost -= ClearEvent;
+        GameManager.OnGameReload -= ClearEvent;
     }
 }
