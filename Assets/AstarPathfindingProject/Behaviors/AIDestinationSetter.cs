@@ -18,9 +18,9 @@ namespace Pathfinding
         /// <summary>The object that the AI should move to</summary>
         [HideInInspector] public Transform target;
 
-        IAstarAI ai;
+        private IAstarAI ai;
 
-        void OnEnable()
+        private void OnEnable()
         {
             target = GameObject.FindWithTag("Player").transform;
             ai = GetComponent<IAstarAI>();
@@ -31,13 +31,13 @@ namespace Pathfinding
             if (ai != null) ai.onSearchPath += Update;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             if (ai != null) ai.onSearchPath -= Update;
         }
 
         /// <summary>Updates the AI's destination every frame</summary>
-        void Update()
+        private void Update()
         {
             if (target != null && ai != null) ai.destination = target.position;
         }

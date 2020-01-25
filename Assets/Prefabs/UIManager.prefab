@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db6c33af05940ff81a997b895bb707b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasFadeSpeed: 2
+  canvasFadeSpeed: 1
   loseMenuCanvas: {fileID: 0}

@@ -1,4 +1,7 @@
-﻿public interface IHealth
+﻿namespace Interfaces
 {
-    void ModifyHealth(int damage);
+    public interface IHealth
+    {
+        void ModifyHealth(int damage);
+    }
 }

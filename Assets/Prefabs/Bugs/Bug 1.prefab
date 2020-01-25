@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604e95ff4cd94a39974ffa8f9b00aa46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenAttack: 2
+  timeBetweenAttack: 3
   damage: 5
   attackRange: 1
   targetLayerMask:
