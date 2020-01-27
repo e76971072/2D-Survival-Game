@@ -12,7 +12,7 @@ namespace Attacks
 
         protected override bool CantShoot()
         {
-            return !GameManager.Instance.playerInput.canShoot || !(Time.time >= nextTimeToFire);
+            return !GameManager.Instance.playerInput.canAttack || !(Time.time >= nextTimeToFire);
         }
 
         protected override Vector3 GetTargetDirection()

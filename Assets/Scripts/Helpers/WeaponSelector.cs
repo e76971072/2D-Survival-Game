@@ -25,7 +25,7 @@ namespace Helpers
             if (Input.GetKeyDown(KeyCode.Space)) SwitchWeapon();
         }
 
-        private void SwitchWeapon()
+        public void SwitchWeapon()
         {
             var targetWeaponIndex = GetTargetWeaponIndex();
             weaponDictionary[currentWeaponIndex].SetActive(false);

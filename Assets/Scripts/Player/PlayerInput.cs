@@ -1,12 +1,14 @@
-﻿using Helpers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player
 {
     [RequireComponent(typeof(PlayerMovement))]
     public class PlayerInput : MonoBehaviour
     {
-        [HideInInspector] public bool canShoot;
+        [SerializeField] private Joystick leftJoystick;
+        [SerializeField] private Joystick rightJoystick;
+
+        [HideInInspector] public bool canAttack;
         [HideInInspector] public float h, v;
         [HideInInspector] public Vector2 rotateDirection;
 
@@ -30,20 +32,19 @@ namespace Player
             h = 0f;
             v = 0f;
             rotateDirection = Vector2.zero;
-            canShoot = false;
+            canAttack = false;
 
             readyToClear = false;
         }
 
         private void ProcessInputs()
         {
-            h += Input.GetAxisRaw("Horizontal");
-            v += Input.GetAxisRaw("Vertical");
+            h += leftJoystick.Horizontal;
+            v += leftJoystick.Vertical;
 
-            canShoot = canShoot || Input.GetButton("Fire1");
+            canAttack = canAttack || rightJoystick.Direction != Vector2.zero;
 
-            Vector2 mousePosition = GameManager.Instance.mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            rotateDirection = (mousePosition - (Vector2) transform.position).normalized;
+            rotateDirection = rightJoystick.Direction;
         }
 
         private void FixedUpdate()

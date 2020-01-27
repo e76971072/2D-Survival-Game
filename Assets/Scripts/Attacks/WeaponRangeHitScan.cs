@@ -41,7 +41,7 @@ namespace Attacks
 
         protected override bool CantShoot()
         {
-            return !GameManager.Instance.playerInput.canShoot || !(Time.time >= nextTimeToFire) || ammo.IsAmmoEmpty();
+            return !GameManager.Instance.playerInput.canAttack || !(Time.time >= nextTimeToFire) || ammo.IsAmmoEmpty();
         }
 
         private void OnDisable()

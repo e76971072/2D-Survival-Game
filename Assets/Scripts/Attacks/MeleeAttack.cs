@@ -63,7 +63,7 @@ namespace Attacks
 
         protected virtual bool CantDamage()
         {
-            return !GameManager.Instance.playerInput.canShoot || !(timer >= timeBetweenAttack);
+            return !GameManager.Instance.playerInput.canAttack || !(timer >= timeBetweenAttack);
         }
 
         private void OnDrawGizmos()
