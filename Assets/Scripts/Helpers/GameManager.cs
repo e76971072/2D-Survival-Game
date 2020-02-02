@@ -1,7 +1,7 @@
 ﻿using System;
 using Player;
-using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Helpers
 {
@@ -9,7 +9,7 @@ namespace Helpers
     {
         public static GameManager Instance { get; private set; }
 
-        public static event Action OnGameLost = delegate { };
+        public static event Action OnGameLost;
 
         public Camera mainCamera;
         [HideInInspector] public GameObject player;
@@ -27,19 +27,11 @@ namespace Helpers
             player = playerInput.gameObject;
         }
 
-        private void Update()
-        {
-            if (!Input.GetKeyDown(KeyCode.R)) return;
-
-            UIManager.Instance.Restart();
-        }
-
         public void GameLost()
         {
             playerInput.enabled = false;
             Time.timeScale = 0;
-            OnGameLost();
-            StartCoroutine(UIManager.Instance.FadeLoseMenu());
+            OnGameLost?.Invoke();
         }
     }
 }

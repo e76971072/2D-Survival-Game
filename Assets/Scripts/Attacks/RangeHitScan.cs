@@ -9,7 +9,7 @@ namespace Attacks
     {
         #region SerializeFields
 
-        [SerializeField] protected LayerMask targetLayer;
+        [SerializeField] protected LayerMask possibleHitLayer;
         [SerializeField] [TagField] protected string targetTag;
         [SerializeField] protected float hitEffectDuration = 0.5f;
         [SerializeField] protected int damage;
@@ -55,7 +55,7 @@ namespace Attacks
 
         protected virtual bool CheckHit(out RaycastHit2D hitInfo)
         {
-            hitInfo = Physics2D.Raycast(muzzleTransform.position, muzzleTransform.right, shootingRange, targetLayer);
+            hitInfo = Physics2D.Raycast(muzzleTransform.position, muzzleTransform.right, shootingRange, possibleHitLayer);
             return !hitInfo;
         }
     }

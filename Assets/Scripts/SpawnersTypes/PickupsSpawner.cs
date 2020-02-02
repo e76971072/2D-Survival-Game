@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SpawnersTypes
 {
     [RequireComponent(typeof(Collider2D))]
-    public class PickupsSpawner : Spawner
+    public abstract class PickupsSpawner : Spawner
     {
         [SerializeField] private LayerMask itemBlockingLayer;
 
@@ -32,7 +32,8 @@ namespace SpawnersTypes
                 } while (!spawnArea.OverlapPoint(spawnPosition) || results[0] != null);
 
                 var pickupToSpawn = RandomObject();
-                Instantiate(pickupToSpawn, spawnPosition, Quaternion.identity, transform);
+                pickupToSpawn.transform.position = spawnPosition;
+                pickupToSpawn.SetActive(true);
 
                 yield return new WaitForSeconds(timeBetweenSpawn);
             }

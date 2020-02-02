@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Pools;
 using UnityEngine;
 
 namespace Attacks
@@ -16,9 +17,9 @@ namespace Attacks
             if (other.gameObject.layer == owner) return;
             if (other.GetComponent<IHealth>() != null) other.GetComponent<IHealth>().ModifyHealth(-damage);
 
-            Destroy(gameObject);
             var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(explosion, 5f);
+            ProjectilePools.Instance.ReturnToPool(this);
         }
 
         public void SetOwner(int ownerLayerMask)

@@ -5,7 +5,6 @@ namespace SpawnersTypes
 {
     public abstract class Spawner : MonoBehaviour
     {
-        [SerializeField] protected GameObject[] prefabs;
         [SerializeField] protected float timeBetweenSpawn;
 
         protected void Start()
@@ -15,14 +14,6 @@ namespace SpawnersTypes
 
         protected abstract IEnumerator Spawn();
 
-        protected GameObject RandomObject()
-        {
-            return prefabs[RandomIndex()];
-        }
-
-        private int RandomIndex()
-        {
-            return Random.Range(0, prefabs.Length);
-        }
+        protected abstract GameObject RandomObject();
     }
 }
