@@ -22,7 +22,7 @@ namespace Pools
             {
                 AddObjects(1);
             }
-
+            
             return objects.Dequeue();
         }
 

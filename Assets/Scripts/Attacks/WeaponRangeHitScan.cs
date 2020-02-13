@@ -1,29 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Helpers;
 using UnityEngine;
 
 namespace Attacks
 {
+    [RequireComponent(typeof(Ammo))]
     public class WeaponRangeHitScan : RangeHitScan
     {
-        [SerializeField] private Ammo ammo;
         [SerializeField] private float reloadTime = 1f;
+
+        private Ammo ammo;
 
         protected override void Awake()
         {
             base.Awake();
+            ammo = GetComponent<Ammo>();
             muzzleTransform = transform.GetChild(0).GetComponent<Transform>();
-
-            ammo = new Ammo();
-            ammo.UpdateAmmoUi();
         }
 
         protected override void Shoot()
         {
-            if (ammo.GetCurrentAmmo <= 0)
+            if (ammo.CurrentAmmo <= 0 && !ammo.IsReloading)
             {
-                if (ammo.IsReloading) return;
-
                 StartCoroutine(ReloadAmmo());
                 return;
             }
@@ -34,20 +33,20 @@ namespace Attacks
 
         private IEnumerator ReloadAmmo()
         {
-            ammo.StartReloading();
+            ammo.IsReloading = true;
             yield return new WaitForSeconds(reloadTime);
             ammo.Reload();
         }
 
         protected override bool CantShoot()
         {
-            return !GameManager.Instance.playerInput.canShoot || !(Time.time >= nextTimeToFire) || ammo.IsAmmoEmpty();
+            return !GameManager.Instance.playerInput.canShoot || !(Time.time >= nextTimeToFire) || ammo.IsAmmoEmpty() || ammo.IsReloading;
         }
 
         private void OnDisable()
         {
             bulletLineRenderer.enabled = false;
-            ammo.StopReloading();
+            ammo.IsReloading = false;
         }
     }
 }

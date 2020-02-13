@@ -14,8 +14,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Lift Studio
   productName: Wizard Wick
-  defaultCursor: {fileID: 2800000, guid: 4a2bfaff78990f34f9ee3dd275b1c570, type: 3}
-  cursorHotspot: {x: 65, y: 65}
+  defaultCursor: {fileID: 2800000, guid: e518e252b858cbe45b305390f8153a28, type: 3}
+  cursorHotspot: {x: 16, y: 16}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1

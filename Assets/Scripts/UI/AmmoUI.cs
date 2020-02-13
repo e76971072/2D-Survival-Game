@@ -9,7 +9,7 @@ namespace UI
         [SerializeField] private TextMeshProUGUI currentAmmoText;
         [SerializeField] private TextMeshProUGUI currentMaxAmmoText;
 
-        private void OnEnable()
+        private void Awake()
         {
             Ammo.OnAmmoChanged += UpdateCurrentAmmo;
             Ammo.OnAmmoChanged += UpdateCurrentMaxAmmo;
@@ -17,12 +17,12 @@ namespace UI
 
         private void UpdateCurrentMaxAmmo(Ammo ammo)
         {
-            currentMaxAmmoText.text = ammo.GetCurrentMaxAmmo.ToString();
+            currentMaxAmmoText.text = ammo.CurrentMaxAmmo.ToString();
         }
 
         private void UpdateCurrentAmmo(Ammo ammo)
         {
-            currentAmmoText.text = ammo.GetCurrentAmmo.ToString();
+            currentAmmoText.text = ammo.CurrentAmmo.ToString();
         }
 
         private void OnDisable()

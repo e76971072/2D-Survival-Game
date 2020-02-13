@@ -7,6 +7,7 @@ namespace Attacks
     {
         #region SerializeFields
 
+        [SerializeField] private ProjectileLogic projectilePrefab;
         [SerializeField] private float shootForce;
 
         #endregion
@@ -24,19 +25,14 @@ namespace Attacks
 
         protected override void Shoot()
         {
-            var shotProjectile = ProjectilePools.Instance.Get();
-            shotProjectile.transform.position = muzzleTransform.position;
+            var shotProjectile = Instantiate(projectilePrefab, muzzleTransform.position, Quaternion.identity);
             shotProjectile.SetOwner(gameObject.layer);
-            shotProjectile.gameObject.SetActive(true);
 
             Vector2 targetDirection = GetTargetDirection();
             var moveForce = targetDirection * shootForce;
-            shotProjectile.GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Impulse);
+            shotProjectile.AddForce(moveForce);
         }
 
-        protected virtual Vector3 GetTargetDirection()
-        {
-            return Vector3.right;
-        }
+        protected abstract Vector3 GetTargetDirection();
     }
 }

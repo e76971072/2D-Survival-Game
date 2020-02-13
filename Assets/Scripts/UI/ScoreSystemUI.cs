@@ -12,11 +12,11 @@ namespace UI
     {
         #region SerializeFields
 
-        public static ScoreSystemUI instance;
+        public static ScoreSystemUI Instance;
 
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI comboText;
-        [SerializeField] private Slider comboTimerSlider;
+        [SerializeField] private Image timerImage;
         [SerializeField] private float maxResetTime = 3;
 
         public int scoreIncrement;
@@ -27,6 +27,7 @@ namespace UI
 
         private float currentTimer;
         private Animator comboTextAnimator;
+        private Color timerImageInitColor;
 
         private static readonly int Hit = Animator.StringToHash("Hit");
         private static readonly int ShouldFlick = Animator.StringToHash("ShouldFlick");
@@ -37,13 +38,12 @@ namespace UI
 
         private void Awake()
         {
-            if (instance != null)
+            if (Instance != null)
                 return;
-            instance = this;
+            Instance = this;
 
             comboTextAnimator = comboText.GetComponent<Animator>();
-
-            comboTimerSlider.maxValue = maxResetTime;
+            timerImageInitColor = timerImage.color;
 
             Score.ResetScore();
             HitCombo.Instance.ResetStreak();
@@ -68,7 +68,7 @@ namespace UI
 
         private void UpdateComboTimerText()
         {
-            comboTimerSlider.value = currentTimer;
+            timerImage.fillAmount = currentTimer / maxResetTime;
         }
 
         private void TimerCoroutineController()
@@ -85,6 +85,7 @@ namespace UI
             while (currentTimer > 0)
             {
                 UpdateComboTimerText();
+                timerImage.color = Color.Lerp(Color.red, timerImageInitColor, currentTimer / maxResetTime);
                 currentTimer -= Time.deltaTime;
                 if (currentTimer <= maxResetTime / 2)
                 {
