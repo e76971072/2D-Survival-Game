@@ -19,7 +19,7 @@ TagManager:
   - Player
   - PostProcessing
   - Projectiles
-  - 
+  - Minimap
   - 
   - 
   - 
@@ -47,7 +47,4 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 367091413
-    locked: 0
-  - name: MouseCursor
-    uniqueID: 2797760929
     locked: 0

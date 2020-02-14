@@ -13,7 +13,7 @@ namespace Data
 
         public static void IncreaseScore()
         {
-            currentScore += ScoreSystemUI.instance.scoreIncrement * HitCombo.Instance.hitCombo;
+            currentScore += ScoreSystemUI.Instance.scoreIncrement * HitCombo.Instance.hitCombo;
         }
     }
 }

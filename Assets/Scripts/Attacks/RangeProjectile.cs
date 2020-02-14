@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Pools;
+using UnityEngine;
 
 namespace Attacks
 {
@@ -6,7 +7,7 @@ namespace Attacks
     {
         #region SerializeFields
 
-        [SerializeField] protected ProjectileLogic projectilePrefab;
+        [SerializeField] private ProjectileLogic projectilePrefab;
         [SerializeField] private float shootForce;
 
         #endregion
@@ -24,20 +25,14 @@ namespace Attacks
 
         protected override void Shoot()
         {
-            Vector2 targetDirection = GetTargetDirection();
-
-            var shotProjectile = Instantiate(projectilePrefab, muzzleTransform.position,
-                Quaternion.FromToRotation(Vector2.up, targetDirection));
+            var shotProjectile = Instantiate(projectilePrefab, muzzleTransform.position, Quaternion.identity);
             shotProjectile.SetOwner(gameObject.layer);
 
-            Destroy(shotProjectile.gameObject, 5f);
+            Vector2 targetDirection = GetTargetDirection();
             var moveForce = targetDirection * shootForce;
-            shotProjectile.GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Impulse);
+            shotProjectile.AddForce(moveForce);
         }
 
-        protected virtual Vector3 GetTargetDirection()
-        {
-            return Vector3.right;
-        }
+        protected abstract Vector3 GetTargetDirection();
     }
 }

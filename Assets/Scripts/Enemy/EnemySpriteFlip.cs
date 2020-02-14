@@ -1,5 +1,4 @@
-﻿using System;
-using Pathfinding;
+﻿using Pathfinding;
 using UnityEngine;
 
 namespace Enemy
@@ -18,8 +17,14 @@ namespace Enemy
 
         private void Update()
         {
-            if (Math.Abs(aiPath.velocity.normalized.x) < Mathf.Epsilon) return;
-            spriteRenderer.flipX = aiPath.velocity.x < 0;
+            if (aiPath.velocity.x > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if (aiPath.velocity.x < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Attacks
         {
             Vector2 position = muzzleTransform.position;
             var targetDirection = (Vector2) playerTransform.position - position;
-            hitInfo = Physics2D.Raycast(position, targetDirection, shootingRange, targetLayer);
+            hitInfo = Physics2D.Raycast(position, targetDirection, shootingRange, possibleHitLayer);
             return !hitInfo;
         }
     }

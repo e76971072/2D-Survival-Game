@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Helpers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,6 @@ namespace UI
     {
         public static UIManager Instance { get; private set; }
 
-        [Header("Lose Menu Canvas")]
         [SerializeField] private CanvasGroup loseMenuCanvas;
         [SerializeField] private float canvasFadeSpeed;
 
@@ -19,9 +19,22 @@ namespace UI
                 Destroy(gameObject);
             else
                 Instance = this;
+            GameManager.OnGameLost += LoseMenuHandler;
         }
 
-        public IEnumerator FadeLoseMenu()
+        private void Update()
+        {
+            if (!Input.GetKeyDown(KeyCode.R)) return;
+
+            Restart();
+        }
+
+        private void LoseMenuHandler()
+        {
+            StartCoroutine(FadeLoseMenu());
+        }
+
+        private IEnumerator FadeLoseMenu()
         {
             while (loseMenuCanvas.alpha < 1)
             {
@@ -44,12 +57,17 @@ namespace UI
 
         public void MainMenu()
         {
-            SceneManager.LoadScene("Main Menu");
+            SceneManager.LoadSceneAsync("Main Menu");
         }
 
         public void StartGame()
         {
-            SceneManager.LoadScene("Level 01");
+            SceneManager.LoadSceneAsync("Level 01");
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.OnGameLost -= LoseMenuHandler;
         }
     }
 }

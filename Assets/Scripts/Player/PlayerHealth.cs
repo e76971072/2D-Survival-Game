@@ -16,7 +16,6 @@ namespace Player
         protected override void Die()
         {
             GameManager.Instance.GameLost();
-            base.Die();
         }
 
         private void DisableOnDead()

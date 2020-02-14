@@ -4,76 +4,81 @@ using UnityEngine;
 
 namespace Attacks
 {
-    [Serializable]
-    public class Ammo
+    public class Ammo : MonoBehaviour
     {
-        public static event Action<Ammo> OnAmmoChanged = delegate { };
-        public int GetCurrentAmmo { get; private set; }
-        public bool IsReloading { get; private set; }
-        public int GetCurrentMaxAmmo { get; private set; }
+        public static event Action<Ammo> OnAmmoChanged;
 
         [SerializeField] private int maxAmmo = 30;
         [SerializeField] private int maxAmmoPerClip = 10;
 
-        public Ammo()
-        {
-            GetCurrentAmmo = maxAmmoPerClip;
-            GetCurrentMaxAmmo = maxAmmo;
+        [HideInInspector] public bool IsReloading;
+        public int CurrentMaxAmmo { get; private set; }
 
-            AmmoPickups.OnAmmoPickedUp += RefillAmmo;
+        public int CurrentAmmo
+        {
+            get => currentAmmo;
+            private set => currentAmmo = Mathf.Clamp(value, 0, maxAmmoPerClip);
         }
 
+        private int currentAmmo;
 
-        public void UpdateAmmoUi()
+        private void Awake()
         {
-            OnAmmoChanged(this);
+            AmmoPickups.OnAmmoPickedUp += RefillAmmo;
+            currentAmmo = maxAmmoPerClip;
+            CurrentMaxAmmo = maxAmmo;
+        }
+
+        private void Start()
+        {
+            UpdateAmmoUi();
+        }
+
+        private void UpdateAmmoUi()
+        {
+            OnAmmoChanged?.Invoke(this);
         }
 
         public void Reload()
         {
             ResetCurrentAmmo();
             ReduceCurrentMaxAmmo();
-            StopReloading();
-            OnAmmoChanged(this);
+            IsReloading = false;
+            OnAmmoChanged?.Invoke(this);
         }
 
         public void ReduceCurrentAmmo()
         {
-            GetCurrentAmmo--;
-            OnAmmoChanged(this);
+            CurrentAmmo--;
+            OnAmmoChanged?.Invoke(this);
         }
 
         private void ReduceCurrentMaxAmmo()
         {
-            GetCurrentMaxAmmo -= GetCurrentMaxAmmo < maxAmmoPerClip ? GetCurrentMaxAmmo : maxAmmoPerClip;
-            OnAmmoChanged(this);
+            CurrentMaxAmmo -= CurrentMaxAmmo < maxAmmoPerClip ? CurrentMaxAmmo : maxAmmoPerClip;
+            OnAmmoChanged?.Invoke(this);
         }
 
         private void ResetCurrentAmmo()
         {
-            GetCurrentAmmo = GetCurrentMaxAmmo < maxAmmoPerClip ? GetCurrentMaxAmmo : maxAmmoPerClip;
-            OnAmmoChanged(this);
+            CurrentAmmo = CurrentMaxAmmo < maxAmmoPerClip ? CurrentMaxAmmo : maxAmmoPerClip;
+            OnAmmoChanged?.Invoke(this);
         }
 
         public bool IsAmmoEmpty()
         {
-            return GetCurrentMaxAmmo <= 0 && GetCurrentAmmo <= 0;
+            return CurrentMaxAmmo <= 0 && CurrentAmmo <= 0;
         }
 
-        public void StartReloading()
+        private void RefillAmmo(int refillAmount)
         {
-            IsReloading = true;
+            CurrentMaxAmmo += refillAmount;
+            OnAmmoChanged?.Invoke(this);
         }
 
-        public void StopReloading()
+        private void OnDestroy()
         {
-            IsReloading = false;
-        }
-
-        public void RefillAmmo(int refillAmount)
-        {
-            GetCurrentMaxAmmo += refillAmount;
-            OnAmmoChanged(this);
+            AmmoPickups.OnAmmoPickedUp -= RefillAmmo;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿﻿using System;
+using Pools;
 using UnityEngine;
 
 namespace PickupsTypes
@@ -12,7 +13,7 @@ namespace PickupsTypes
         protected override void OnPickedUp(Collider2D player)
         {
             OnAmmoPickedUp?.Invoke(ammoAmount);
-            Destroy(gameObject);
+            AmmoPickupsPool.Instance.ReturnToPool(this);
         }
     }
 }

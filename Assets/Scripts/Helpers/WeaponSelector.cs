@@ -22,7 +22,10 @@ namespace Helpers
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) SwitchWeapon();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SwitchWeapon();
+            }
         }
 
         public void SwitchWeapon()

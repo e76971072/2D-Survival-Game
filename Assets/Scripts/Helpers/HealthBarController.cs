@@ -30,7 +30,10 @@ namespace Helpers
         {
             if (!healthBars.ContainsKey(health)) return;
 
-            if (healthBars[health] != null) Destroy(healthBars[health].gameObject);
+            if (healthBars[health] != null)
+            {
+                Destroy(healthBars[health].gameObject);
+            }
             healthBars.Remove(health);
             if (healthBars.Count != 0) return;
 

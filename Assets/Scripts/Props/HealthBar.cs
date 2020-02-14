@@ -37,13 +37,6 @@ namespace Props
 
             StopAllCoroutines();
             StartCoroutine(ChangeToPct(pct));
-            StartCoroutine(WaitToFade());
-        }
-
-        private IEnumerator WaitToFade()
-        {
-            yield return new WaitForSeconds(shownSeconds);
-            FadeHealthBar(0, fadeSeconds);
         }
 
         private void FadeHealthBar(float alphaValue, float seconds)
