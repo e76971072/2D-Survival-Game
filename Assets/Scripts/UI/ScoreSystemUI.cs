@@ -102,6 +102,7 @@ namespace UI
         private void OnComboEnd()
         {
             comboTextAnimator.SetBool(EndCombo, true);
+            UIManager.Instance.SetLosingReasonText("Combo End!");
             GameManager.Instance.GameLost();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Helpers;
 using PickupsTypes;
 using Props;
+using UI;
 using UnityEngine;
 
 namespace Player
@@ -15,6 +16,7 @@ namespace Player
 
         protected override void Die()
         {
+            UIManager.Instance.SetLosingReasonText("You Died!");
             GameManager.Instance.GameLost();
         }
 
