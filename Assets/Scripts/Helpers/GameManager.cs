@@ -1,4 +1,5 @@
 ﻿using System;
+using Data;
 using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,17 +13,21 @@ namespace Helpers
         public static event Action OnGameLost;
 
         public Camera mainCamera;
-        [HideInInspector] public GameObject player;
         public PlayerInput playerInput;
+        [HideInInspector] public GameObject player;
 
 
         private void Awake()
         {
             Time.timeScale = 1;
             if (Instance != null && Instance != this)
+            {
                 Destroy(gameObject);
+            }
             else
+            {
                 Instance = this;
+            }
 
             player = playerInput.gameObject;
         }
@@ -31,6 +36,7 @@ namespace Helpers
         {
             playerInput.enabled = false;
             Time.timeScale = 0;
+            Score.SaveScore();
             OnGameLost?.Invoke();
         }
     }

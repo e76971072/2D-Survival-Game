@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using Data;
 using Helpers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +13,8 @@ namespace UI
         public static UIManager Instance { get; private set; }
 
         [SerializeField] private CanvasGroup loseMenuCanvas;
+        [SerializeField] private TextMeshProUGUI highScoreText;
+        [SerializeField] private TextMeshProUGUI losingReasonText;
         [SerializeField] private float canvasFadeSpeed;
 
         private void Awake()
@@ -36,6 +40,7 @@ namespace UI
 
         private IEnumerator FadeLoseMenu()
         {
+            highScoreText.text = Score.LoadHighScore().ToString();
             while (loseMenuCanvas.alpha < 1)
             {
                 loseMenuCanvas.alpha += Time.unscaledDeltaTime * canvasFadeSpeed;
@@ -43,6 +48,11 @@ namespace UI
             }
 
             foreach (var button in loseMenuCanvas.GetComponentsInChildren<Button>()) button.interactable = true;
+        }
+
+        public void SetLosingReasonText(string reason)
+        {
+            losingReasonText.text = reason;
         }
 
         public void Restart()
