@@ -15,7 +15,7 @@ MonoBehaviour:
   firingRate: 0.5
   projectilePrefab: {fileID: -7374236164503233608, guid: 1a4c0bda1b8e0464a8d761b6dea181be,
     type: 3}
-  shootForce: 200
+  shootForce: 150
 --- !u!1001 &2556889184834168413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,7 +142,7 @@ PrefabInstance:
     - target: {fileID: 7823494424389691978, guid: 40a9eefa23bf4694f90f668c96956c8a,
         type: 3}
       propertyPath: maxSpeed
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6260088019524511740, guid: 40a9eefa23bf4694f90f668c96956c8a,
         type: 3}
