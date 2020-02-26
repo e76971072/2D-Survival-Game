@@ -21,9 +21,9 @@ namespace Attacks
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.layer == owner) return;
-            if (other.GetComponent<IHealth>() != null)
+            if (other.GetComponent<IDamageable>() != null)
             {
-                other.GetComponent<IHealth>().ModifyHealth(-damage);
+                other.GetComponent<IDamageable>().TakeDamage(damage);
             }
 
             var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);

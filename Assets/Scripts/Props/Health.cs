@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Props
 {
     [RequireComponent(typeof(Animator))]
-    public abstract class Health : MonoBehaviour, IHealth
+    public abstract class Health : MonoBehaviour, IDamageable
     {
         #region ExposedFields
 
@@ -21,20 +21,25 @@ namespace Props
 
         private int currentHealth;
 
+        protected int CurrentHealth
+        {
+            get => currentHealth;
+            set
+            {
+                currentHealth = value;
+                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+                var currentHealthPct = (float) currentHealth / maxHealth;
+                OnHealthPctChanged(currentHealthPct);
+            }
+        }
+
         #endregion
 
-        public virtual void ModifyHealth(int damage)
+        public virtual void TakeDamage(int damageAmount)
         {
-            currentHealth += damage;
-            if (currentHealth > maxHealth)
-            {
-                currentHealth = maxHealth;
-            }
-
-            var currentHealthPct = (float) currentHealth / maxHealth;
-            OnHealthPctChanged(currentHealthPct);
-
-            if (currentHealth <= 0)
+            CurrentHealth -= damageAmount;
+            if (CurrentHealth <= 0)
             {
                 Die();
             }
@@ -42,7 +47,7 @@ namespace Props
 
         private void OnEnable()
         {
-            currentHealth = maxHealth;
+            CurrentHealth = maxHealth;
             OnHealthAdded(this);
         }
 

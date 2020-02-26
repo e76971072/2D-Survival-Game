@@ -1,38 +1,39 @@
 ﻿using System;
 using Attacks;
 using Cinemachine;
+using Helpers;
 using Interfaces;
 using Pathfinding;
 using Props;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Enemy
 {
+    [RequireComponent(typeof(IAudioHandler))]
+    [RequireComponent(typeof(AnimatorHandler))]
     [RequireComponent(typeof(DiedHandler))]
     public class EnemyHealth : Health
     {
-        public static event Action OnEnemyHit = delegate { };
+        public static event Action OnEnemyHit;
 
-        private Animator animator;
-        private static readonly int Blink = Animator.StringToHash("Blink");
-
+        private IAudioHandler audioPlayer;
         private DiedHandler diedHandler;
-        private AudioSource audioSource;
+        private AnimatorHandler animatorHandler;
 
-        private void Awake()
+        protected virtual void Awake()
         {
-            animator = GetComponent<Animator>();
             diedHandler = GetComponent<DiedHandler>();
-            audioSource = GetComponent<AudioSource>();
+            animatorHandler = GetComponent<AnimatorHandler>();
+            audioPlayer = GetComponent<IAudioHandler>();
         }
 
-        public override void ModifyHealth(int damage)
+        public override void TakeDamage(int damageAmount)
         {
-            animator.SetTrigger(Blink);
-            audioSource.Stop();
-            audioSource.Play();
-            OnEnemyHit();
-            base.ModifyHealth(damage);
+            audioPlayer.PlayAudioSource();
+            animatorHandler.PlayDamagedAnimation();
+            OnEnemyHit?.Invoke();
+            base.TakeDamage(damageAmount);
         }
 
         protected override void Die()

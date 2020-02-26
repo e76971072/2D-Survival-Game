@@ -41,7 +41,7 @@ namespace Attacks
                 Quaternion.FromToRotation(Vector2.up, hitInfo.normal));
             Destroy(hitParticle, hitEffectDuration);
             if (hitInfo.transform.CompareTag(targetTag))
-                hitInfo.transform.GetComponent<IHealth>().ModifyHealth(-damage);
+                hitInfo.transform.GetComponent<IDamageable>().TakeDamage(damage);
         }
 
         private IEnumerator DrawBulletTrail(RaycastHit2D hitInfo)

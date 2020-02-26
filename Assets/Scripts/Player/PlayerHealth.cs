@@ -1,4 +1,5 @@
 ﻿using Helpers;
+using Interfaces;
 using PickupsTypes;
 using Props;
 using UI;
@@ -6,12 +7,12 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerHealth : Health
+    public class PlayerHealth : Health, IHealable
     {
         private void Awake()
         {
             GameManager.OnGameLost += DisableOnDead;
-            HealthPickups.OnHealthPickedUp += ModifyHealth;
+            HealthPickups.OnHealthPickedUp += Heal;
         }
 
         protected override void Die()
@@ -29,6 +30,11 @@ namespace Player
         {
             base.OnDisable();
             GameManager.OnGameLost -= DisableOnDead;
+        }
+
+        public void Heal(int healAmount)
+        {
+            CurrentHealth += healAmount;
         }
     }
 }

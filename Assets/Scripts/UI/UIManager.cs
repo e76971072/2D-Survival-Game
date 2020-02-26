@@ -20,9 +20,13 @@ namespace UI
         private void Awake()
         {
             if (Instance != null && Instance != this)
+            {
                 Destroy(gameObject);
+            }
             else
+            {
                 Instance = this;
+            }
             GameManager.OnGameLost += LoseMenuHandler;
         }
 
@@ -67,12 +71,12 @@ namespace UI
 
         public void MainMenu()
         {
-            SceneManager.LoadSceneAsync("Main Menu");
+            SceneManager.LoadScene("Main Menu");
         }
 
         public void StartGame()
         {
-            SceneManager.LoadSceneAsync("Level 01");
+            SceneManager.LoadScene("Level 01");
         }
 
         private void OnDestroy()
