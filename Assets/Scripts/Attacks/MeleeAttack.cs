@@ -19,16 +19,8 @@ namespace Attacks
 
         #endregion
 
-        #region NonExposedFields
-
-        private Animator animator;
-        private readonly int attackParameter = Animator.StringToHash("Attack");
-
-        #endregion
-
         protected virtual void Awake()
         {
-            animator = GetComponent<Animator>();
             timer = timeBetweenAttack;
         }
 
@@ -54,17 +46,8 @@ namespace Attacks
         {
             timer = 0f;
         }
-
-
-        protected void PlayAttackAnimation()
-        {
-            animator.SetTrigger(attackParameter);
-        }
-
-        protected virtual bool CantDamage()
-        {
-            return !GameManager.Instance.playerInput.canShoot || !(timer >= timeBetweenAttack);
-        }
+        
+        protected abstract bool CantDamage();
 
         private void OnDrawGizmos()
         {

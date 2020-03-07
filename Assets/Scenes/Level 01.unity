@@ -5450,6 +5450,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378897426}
   m_CullTransparentMesh: 0
+--- !u!95 &388208199 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6363913643519872971, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1349894244}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &460102563
 GameObject:
   m_ObjectHideFlags: 0
@@ -48265,27 +48271,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619213931}
   m_CullTransparentMesh: 0
---- !u!1 &636039230 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6089361292368181353, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
-    type: 3}
-  m_PrefabInstance: {fileID: 1349894244}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &636039236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 636039230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18cc2bb09e5147cbbcc46a745c768ee7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxAmmo: 30
-  maxAmmoPerClip: 10
-  IsReloading: 0
 --- !u!1 &676746540
 GameObject:
   m_ObjectHideFlags: 0
@@ -100327,6 +100312,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2743321273399120230, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2743321273399120230, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2743321273399120230, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2743321273399120230, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 388208199}
+    - target: {fileID: 2743321273399120230, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 2743321273399120230, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2743321273399120230, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7108200891084825312, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
         type: 3}
       propertyPath: ammo.maxAmmo
@@ -100337,11 +100357,27 @@ PrefabInstance:
       propertyPath: ammo.maxAmmoPerClip
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7108200891084825312, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: useAmmo
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 21286506, guid: d11a196208aec8d40a41d6ffd0c9c6a1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 3062266272759714355, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1082808605}
+    - target: {fileID: 1792739173836896130, guid: d11a196208aec8d40a41d6ffd0c9c6a1,
+        type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1349894245}
+    m_RemovedComponents:
+    - {fileID: 3115965181870890491, guid: d11a196208aec8d40a41d6ffd0c9c6a1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d11a196208aec8d40a41d6ffd0c9c6a1, type: 3}
 --- !u!114 &1349894245 stripped
 MonoBehaviour:

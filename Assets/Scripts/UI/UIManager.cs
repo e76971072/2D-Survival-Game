@@ -17,6 +17,8 @@ namespace UI
         [SerializeField] private TextMeshProUGUI losingReasonText;
         [SerializeField] private float canvasFadeSpeed;
 
+        private Button[] buttonArray;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -27,6 +29,9 @@ namespace UI
             {
                 Instance = this;
             }
+
+            buttonArray = loseMenuCanvas.GetComponentsInChildren<Button>();
+            
             GameManager.OnGameLost += LoseMenuHandler;
         }
 
@@ -51,7 +56,7 @@ namespace UI
                 yield return null;
             }
 
-            foreach (var button in loseMenuCanvas.GetComponentsInChildren<Button>()) button.interactable = true;
+            foreach (var button in buttonArray) button.interactable = true;
         }
 
         public void SetLosingReasonText(string reason)

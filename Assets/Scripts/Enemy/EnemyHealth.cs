@@ -4,6 +4,7 @@ using Cinemachine;
 using Helpers;
 using Interfaces;
 using Pathfinding;
+using Player;
 using Props;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -11,7 +12,7 @@ using UnityEngine.Audio;
 namespace Enemy
 {
     [RequireComponent(typeof(IAudioHandler))]
-    [RequireComponent(typeof(AnimatorHandler))]
+    [RequireComponent(typeof(AttackedAnimatorHandler))]
     [RequireComponent(typeof(DiedHandler))]
     public class EnemyHealth : Health
     {
@@ -19,19 +20,19 @@ namespace Enemy
 
         private IAudioHandler audioPlayer;
         private DiedHandler diedHandler;
-        private AnimatorHandler animatorHandler;
+        private AttackedAnimatorHandler enemyAnimatorHandler;
 
         protected virtual void Awake()
         {
             diedHandler = GetComponent<DiedHandler>();
-            animatorHandler = GetComponent<AnimatorHandler>();
+            enemyAnimatorHandler = GetComponent<AttackedAnimatorHandler>();
             audioPlayer = GetComponent<IAudioHandler>();
         }
 
         public override void TakeDamage(int damageAmount)
         {
             audioPlayer.PlayAudioSource();
-            animatorHandler.PlayDamagedAnimation();
+            enemyAnimatorHandler.PlayDamagedAnimation();
             OnEnemyHit?.Invoke();
             base.TakeDamage(damageAmount);
         }

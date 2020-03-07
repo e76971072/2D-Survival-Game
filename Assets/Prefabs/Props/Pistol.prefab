@@ -113,15 +113,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firingRate: 2
-  targetLayer:
+  possibleHitLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   targetTag: Enemy
   hitEffectDuration: 0.5
   damage: 50
   shootingRange: Infinity
   gunHitEffect: {fileID: 1828881407812472, guid: f969e7e866332ff4ca0c3ea025a22646,
     type: 3}
+  reloadTime: 1
+  playerInput: {fileID: 0}
 --- !u!120 &7761583173196167879
 LineRenderer:
   m_ObjectHideFlags: 0

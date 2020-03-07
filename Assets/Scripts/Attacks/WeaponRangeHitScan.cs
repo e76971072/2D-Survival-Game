@@ -1,33 +1,49 @@
-﻿using System;
-using System.Collections;
-using Helpers;
+﻿using System.Collections;
+using Player;
 using UnityEngine;
 
 namespace Attacks
 {
-    [RequireComponent(typeof(Ammo))]
     public class WeaponRangeHitScan : RangeHitScan
     {
+        [SerializeField] private bool useAmmo;
+        [SerializeField] private int maxAmmo = 30;
+        [SerializeField] private int maxAmmoPerClip = 10;
         [SerializeField] private float reloadTime = 1f;
+        [SerializeField] private PlayerInput playerInput;
 
         private Ammo ammo;
+
+        private void OnValidate()
+        {
+            maxAmmo = Mathf.Clamp(maxAmmo, 0, 70);
+            maxAmmoPerClip = Mathf.Clamp(maxAmmoPerClip, 0, maxAmmo);
+        }
 
         protected override void Awake()
         {
             base.Awake();
-            ammo = GetComponent<Ammo>();
+            if (useAmmo)
+            {
+                ammo = new Ammo(maxAmmo, maxAmmoPerClip);
+            }
+
             muzzleTransform = transform.GetChild(0).GetComponent<Transform>();
         }
 
         protected override void Shoot()
         {
-            if (ammo.CurrentAmmo <= 0 && !ammo.IsReloading)
+            if (useAmmo)
             {
-                StartCoroutine(ReloadAmmo());
-                return;
+                if (ammo.CurrentAmmo <= 0 && !ammo.IsReloading)
+                {
+                    StartCoroutine(ReloadAmmo());
+                    return;
+                }
+
+                ammo.ReduceCurrentAmmo();
             }
 
-            ammo.ReduceCurrentAmmo();
             base.Shoot();
         }
 
@@ -40,13 +56,23 @@ namespace Attacks
 
         protected override bool CantShoot()
         {
-            return !GameManager.Instance.playerInput.canShoot || !(Time.time >= nextTimeToFire) || ammo.IsAmmoEmpty() || ammo.IsReloading;
+            if (useAmmo)
+            {
+                return !playerInput.canShoot || !(Time.time >= nextTimeToFire) || ammo.IsAmmoEmpty() ||
+                       ammo.IsReloading;
+            }
+
+            return !playerInput.canShoot || !(Time.time >= nextTimeToFire);
         }
 
         private void OnDisable()
         {
             bulletLineRenderer.enabled = false;
-            ammo.IsReloading = false;
+
+            if (useAmmo)
+            {
+                ammo.IsReloading = false;
+            }
         }
     }
 }

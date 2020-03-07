@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Data;
 using Enemy;
 using Helpers;
@@ -11,9 +12,7 @@ namespace UI
     public class ScoreSystemUI : MonoBehaviour
     {
         #region SerializeFields
-
-        public static ScoreSystemUI Instance;
-
+        
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI comboText;
         [SerializeField] private Image timerImage;
@@ -36,34 +35,34 @@ namespace UI
 
         #endregion
 
+        private void OnValidate()
+        {
+            scoreIncrement = Mathf.Clamp(scoreIncrement, 0, 100);
+        }
+
         private void Awake()
         {
-            if (Instance != null)
-                return;
-            Instance = this;
-
             comboTextAnimator = comboText.GetComponent<Animator>();
             timerImageInitColor = timerImage.color;
 
-            Score.ResetScore();
-            HitCombo.Instance.ResetStreak();
+            Score.Instance.ResetScore();
+            Score.Instance.ScoreIncrement = scoreIncrement;
+            
+            Score.OnScoreChanged += UpdateScoreText;
+            HitCombo.OnHitComboChanged += UpdateComboText;
 
-            EnemyHealth.OnEnemyHit += HitCombo.Instance.IncreaseStreak;
-            EnemyHealth.OnEnemyHit += Score.IncreaseScore;
-            EnemyHealth.OnEnemyHit += UpdateComboText;
-            EnemyHealth.OnEnemyHit += UpdateScoreText;
             EnemyHealth.OnEnemyHit += TimerCoroutineController;
         }
 
-        private void UpdateComboText()
+        private void UpdateComboText(int currentCombo)
         {
-            comboText.text = $"x{HitCombo.Instance.hitCombo}";
+            comboText.text = $"x{currentCombo}";
             comboTextAnimator.SetTrigger(Hit);
         }
 
-        private void UpdateScoreText()
+        private void UpdateScoreText(int currentScore)
         {
-            scoreText.text = Score.currentScore.ToString();
+            scoreText.text = currentScore.ToString();
         }
 
         private void UpdateComboTimerText()
@@ -106,12 +105,11 @@ namespace UI
             GameManager.Instance.GameLost();
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            EnemyHealth.OnEnemyHit -= HitCombo.Instance.IncreaseStreak;
-            EnemyHealth.OnEnemyHit -= Score.IncreaseScore;
-            EnemyHealth.OnEnemyHit -= UpdateComboText;
-            EnemyHealth.OnEnemyHit -= UpdateScoreText;
+            Score.OnScoreChanged -= UpdateScoreText;
+            HitCombo.OnHitComboChanged -= UpdateComboText;
+
             EnemyHealth.OnEnemyHit -= TimerCoroutineController;
         }
     }

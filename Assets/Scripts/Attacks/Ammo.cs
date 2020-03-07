@@ -1,18 +1,27 @@
 ﻿using System;
+using Data;
 using PickupsTypes;
 using UnityEngine;
 
 namespace Attacks
 {
-    public class Ammo : MonoBehaviour
+    public class Ammo
     {
         public static event Action<Ammo> OnAmmoChanged;
 
-        [SerializeField] private int maxAmmo = 30;
-        [SerializeField] private int maxAmmoPerClip = 10;
+        public bool IsReloading;
 
-        [HideInInspector] public bool IsReloading;
-        public int CurrentMaxAmmo { get; private set; }
+        private readonly int maxAmmo;
+        private readonly int maxAmmoPerClip;
+
+        private int currentAmmo;
+        private int currentMaxAmmo;
+
+        public int CurrentMaxAmmo
+        {
+            get => currentMaxAmmo;
+            private set => currentMaxAmmo = Mathf.Clamp(value, 0, maxAmmo);
+        }
 
         public int CurrentAmmo
         {
@@ -20,29 +29,23 @@ namespace Attacks
             private set => currentAmmo = Mathf.Clamp(value, 0, maxAmmoPerClip);
         }
 
-        private int currentAmmo;
 
-        private void Awake()
+        public Ammo(int maxAmmo, int maxAmmoPerClip)
         {
             AmmoPickups.OnAmmoPickedUp += RefillAmmo;
-            currentAmmo = maxAmmoPerClip;
+
+            this.maxAmmo = maxAmmo;
+            this.maxAmmoPerClip = maxAmmoPerClip;
             CurrentMaxAmmo = maxAmmo;
-        }
-
-        private void Start()
-        {
-            UpdateAmmoUi();
-        }
-
-        private void UpdateAmmoUi()
-        {
+            CurrentAmmo = maxAmmoPerClip;
             OnAmmoChanged?.Invoke(this);
         }
 
         public void Reload()
         {
-            ResetCurrentAmmo();
-            ReduceCurrentMaxAmmo();
+            var reloadAmount = GetReloadAmount();
+            ResetCurrentAmmo(reloadAmount);
+            ReduceCurrentMaxAmmo(reloadAmount);
             IsReloading = false;
             OnAmmoChanged?.Invoke(this);
         }
@@ -52,17 +55,21 @@ namespace Attacks
             CurrentAmmo--;
             OnAmmoChanged?.Invoke(this);
         }
-
-        private void ReduceCurrentMaxAmmo()
+        
+        public void ReduceCurrentAmmo(int reduceAmount)
         {
-            CurrentMaxAmmo -= CurrentMaxAmmo < maxAmmoPerClip ? CurrentMaxAmmo : maxAmmoPerClip;
+            CurrentAmmo -= reduceAmount;
             OnAmmoChanged?.Invoke(this);
         }
 
-        private void ResetCurrentAmmo()
+        private void ReduceCurrentMaxAmmo(int reduceAmount)
         {
-            CurrentAmmo = CurrentMaxAmmo < maxAmmoPerClip ? CurrentMaxAmmo : maxAmmoPerClip;
-            OnAmmoChanged?.Invoke(this);
+            CurrentMaxAmmo -= reduceAmount;
+        }
+
+        private void ResetCurrentAmmo(int reloadAmount)
+        {
+            CurrentAmmo += reloadAmount;
         }
 
         public bool IsAmmoEmpty()
@@ -76,9 +83,9 @@ namespace Attacks
             OnAmmoChanged?.Invoke(this);
         }
 
-        private void OnDestroy()
+        private int GetReloadAmount()
         {
-            AmmoPickups.OnAmmoPickedUp -= RefillAmmo;
+            return CurrentMaxAmmo <= (maxAmmoPerClip - CurrentAmmo) ? CurrentMaxAmmo : (maxAmmoPerClip - CurrentAmmo);
         }
     }
 }

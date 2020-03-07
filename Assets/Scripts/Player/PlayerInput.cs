@@ -6,6 +6,8 @@ namespace Player
     [RequireComponent(typeof(PlayerMovement))]
     public class PlayerInput : MonoBehaviour
     {
+        [SerializeField] private Camera mainCamera;
+        
         [HideInInspector] public bool canShoot;
         [HideInInspector] public float h, v;
         [HideInInspector] public Vector2 rotateDirection;
@@ -42,7 +44,7 @@ namespace Player
 
             canShoot = canShoot || Input.GetButton("Fire1");
 
-            Vector2 mousePosition = GameManager.Instance.mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             rotateDirection = (mousePosition - (Vector2) transform.position).normalized;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Data;
 using Interfaces;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Props
 
         public static event Action<Health> OnHealthAdded = delegate { };
         public static event Action<Health> OnHealthRemoved = delegate { };
-        public event Action<float> OnHealthPctChanged = delegate { };
+        public event Action<float> OnHealthPctChanged;
 
         [SerializeField] protected int maxHealth = 100;
 
@@ -30,11 +31,21 @@ namespace Props
                 currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
                 var currentHealthPct = (float) currentHealth / maxHealth;
-                OnHealthPctChanged(currentHealthPct);
+                OnHealthPctChanged?.Invoke(currentHealthPct);
             }
         }
 
         #endregion
+
+        private void Awake()
+        {
+        }
+
+        private void OnEnable()
+        {
+            CurrentHealth = maxHealth;
+            OnHealthAdded(this);
+        }
 
         public virtual void TakeDamage(int damageAmount)
         {
@@ -43,12 +54,6 @@ namespace Props
             {
                 Die();
             }
-        }
-
-        private void OnEnable()
-        {
-            CurrentHealth = maxHealth;
-            OnHealthAdded(this);
         }
 
         protected abstract void Die();

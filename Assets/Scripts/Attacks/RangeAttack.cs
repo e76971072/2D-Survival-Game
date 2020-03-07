@@ -16,10 +16,7 @@ namespace Attacks
             Shoot();
         }
 
-        protected virtual bool CantShoot()
-        {
-            return !Input.GetButton("Fire1") || !(Time.time >= nextTimeToFire);
-        }
+        protected abstract bool CantShoot();
 
         protected abstract void Shoot();
     }
