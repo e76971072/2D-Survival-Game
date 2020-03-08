@@ -15,8 +15,7 @@ namespace Helpers
         public Camera mainCamera;
         public PlayerInput playerInput;
         [HideInInspector] public GameObject player;
-
-
+        
         private void Awake()
         {
             Time.timeScale = 1;
@@ -36,7 +35,6 @@ namespace Helpers
         {
             playerInput.enabled = false;
             Time.timeScale = 0;
-            Score.SaveScore();
             OnGameLost?.Invoke();
         }
     }

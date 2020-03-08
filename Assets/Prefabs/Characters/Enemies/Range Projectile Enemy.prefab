@@ -23,6 +23,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4128213012209010020, guid: 40a9eefa23bf4694f90f668c96956c8a,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 68bb1b228712ec642a1aeab3d216ccc9, type: 3}
     - target: {fileID: 2787147494272888741, guid: 40a9eefa23bf4694f90f668c96956c8a,
         type: 3}
       propertyPath: m_Name
@@ -180,17 +185,17 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 150
       objectReference: {fileID: 0}
-    - target: {fileID: 9158924498678913823, guid: 40a9eefa23bf4694f90f668c96956c8a,
+    - target: {fileID: 888996296631323468, guid: 40a9eefa23bf4694f90f668c96956c8a,
         type: 3}
-      propertyPath: OutputAudioMixerGroup
+      propertyPath: onHitAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 68bb1b228712ec642a1aeab3d216ccc9, type: 3}
+    - target: {fileID: 888996296631323468, guid: 40a9eefa23bf4694f90f668c96956c8a,
+        type: 3}
+      propertyPath: targetAudioGroup
       value: 
       objectReference: {fileID: -5179329701742776673, guid: 439f9fed9ebd00f458e6f4cabf3618f2,
         type: 2}
-    - target: {fileID: 9158924498678913823, guid: 40a9eefa23bf4694f90f668c96956c8a,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 68bb1b228712ec642a1aeab3d216ccc9, type: 3}
     - target: {fileID: 528101564757580050, guid: 40a9eefa23bf4694f90f668c96956c8a,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -237,6 +242,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 49ed5423a130f994a8e41bc2d6cff87b,
         type: 3}
+    - target: {fileID: 9158924498678913823, guid: 40a9eefa23bf4694f90f668c96956c8a,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -5179329701742776673, guid: 439f9fed9ebd00f458e6f4cabf3618f2,
+        type: 2}
+    - target: {fileID: 9158924498678913823, guid: 40a9eefa23bf4694f90f668c96956c8a,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 68bb1b228712ec642a1aeab3d216ccc9, type: 3}
     m_RemovedComponents:
     - {fileID: 1465005381518396658, guid: 40a9eefa23bf4694f90f668c96956c8a, type: 3}
     - {fileID: 4577549961243814017, guid: 40a9eefa23bf4694f90f668c96956c8a, type: 3}

@@ -42,7 +42,7 @@ namespace Enemy
             for (var i = 0; i < targetCount; i++)
             {
                 var targetCollider2D = targetResults[i];
-                targetCollider2D.GetComponent<IHealth>().ModifyHealth(-damage);
+                targetCollider2D.GetComponent<IDamageable>().TakeDamage(damage);
             }
             Destroy(gameObject);
         }

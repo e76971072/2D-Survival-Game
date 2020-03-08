@@ -43,7 +43,7 @@ namespace Player
             v += leftJoystick.Vertical;
 
             canAttack = canAttack || rightJoystick.Direction != Vector2.zero;
-
+            
             rotateDirection = rightJoystick.Direction;
         }
 

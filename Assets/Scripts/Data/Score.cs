@@ -1,28 +1,56 @@
-﻿using UI;
+﻿using System;
+using Enemy;
+using Helpers;
 using UnityEngine;
 
 namespace Data
 {
-    public static class Score
+    public class Score
     {
+        public static Score Instance => _instance ?? (_instance = new Score());
+        public static event Action<int> OnScoreChanged;
+
+        private static Score _instance;
+
         private const string Highscore = "highscore";
-        public static int currentScore;
+        private int currentScore;
+        public int ScoreIncrement = 10;
 
-        public static void ResetScore()
+        public int CurrentScore
         {
-            currentScore = 0;
+            get => currentScore;
+            private set
+            {
+                currentScore = Mathf.Clamp(value, 0, int.MaxValue);
+                OnScoreChanged?.Invoke(CurrentScore);
+            }
         }
 
-        public static void IncreaseScore()
+        private Score()
         {
-            currentScore += ScoreSystemUI.Instance.scoreIncrement * HitCombo.Instance.hitCombo;
+            ResetScore();
+
+            GameManager.OnGameLost += SaveScore;
+            EnemyHealth.OnEnemyHit += IncreaseScore;
         }
 
-        public static void SaveScore()
+        public void ResetScore()
+        {
+            CurrentScore = 0;
+            HitCombo.Instance.ResetStreak();
+        }
+
+        public void IncreaseScore()
+        {
+            HitCombo.Instance.IncreaseStreak();
+            CurrentScore += ScoreIncrement * HitCombo.Instance.CurrentHitCombo;
+        }
+
+        private void SaveScore()
         {
             var currentHighScore = PlayerPrefs.GetInt(Highscore);
-            if (currentHighScore >= currentScore) return;
-            PlayerPrefs.SetInt(Highscore, currentScore);
+            if (currentHighScore >= CurrentScore) return;
+            PlayerPrefs.SetInt(Highscore, CurrentScore);
         }
 
         public static int LoadHighScore()

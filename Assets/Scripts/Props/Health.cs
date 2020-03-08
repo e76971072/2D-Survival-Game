@@ -1,17 +1,18 @@
 ﻿using System;
+using Data;
 using Interfaces;
 using UnityEngine;
 
 namespace Props
 {
     [RequireComponent(typeof(Animator))]
-    public abstract class Health : MonoBehaviour, IHealth
+    public abstract class Health : MonoBehaviour, IDamageable
     {
         #region ExposedFields
 
         public static event Action<Health> OnHealthAdded = delegate { };
         public static event Action<Health> OnHealthRemoved = delegate { };
-        public event Action<float> OnHealthPctChanged = delegate { };
+        public event Action<float> OnHealthPctChanged;
 
         [SerializeField] protected int maxHealth = 100;
 
@@ -21,29 +22,38 @@ namespace Props
 
         private int currentHealth;
 
+        protected int CurrentHealth
+        {
+            get => currentHealth;
+            set
+            {
+                currentHealth = value;
+                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+                var currentHealthPct = (float) currentHealth / maxHealth;
+                OnHealthPctChanged?.Invoke(currentHealthPct);
+            }
+        }
+
         #endregion
 
-        public virtual void ModifyHealth(int damage)
+        private void Awake()
         {
-            currentHealth += damage;
-            if (currentHealth > maxHealth)
-            {
-                currentHealth = maxHealth;
-            }
-
-            var currentHealthPct = (float) currentHealth / maxHealth;
-            OnHealthPctChanged(currentHealthPct);
-
-            if (currentHealth <= 0)
-            {
-                Die();
-            }
         }
 
         private void OnEnable()
         {
-            currentHealth = maxHealth;
+            CurrentHealth = maxHealth;
             OnHealthAdded(this);
+        }
+
+        public virtual void TakeDamage(int damageAmount)
+        {
+            CurrentHealth -= damageAmount;
+            if (CurrentHealth <= 0)
+            {
+                Die();
+            }
         }
 
         protected abstract void Die();

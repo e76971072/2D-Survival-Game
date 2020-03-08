@@ -9,12 +9,12 @@ namespace Attacks
     {
         #region SerializeFields
 
-        [SerializeField] protected LayerMask possibleHitLayer;
-        [SerializeField] [TagField] protected string targetTag;
-        [SerializeField] protected float hitEffectDuration = 0.5f;
         [SerializeField] protected int damage;
         [SerializeField] protected float shootingRange = Mathf.Infinity;
+        [SerializeField] protected LayerMask possibleHitLayer;
+        [SerializeField] [TagField] protected string targetTag;
         [SerializeField] protected GameObject gunHitEffect;
+        [SerializeField] protected float hitEffectDuration = 0.5f;
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace Attacks
                 Quaternion.FromToRotation(Vector2.up, hitInfo.normal));
             Destroy(hitParticle, hitEffectDuration);
             if (hitInfo.transform.CompareTag(targetTag))
-                hitInfo.transform.GetComponent<IHealth>().ModifyHealth(-damage);
+                hitInfo.transform.GetComponent<IDamageable>().TakeDamage(damage);
         }
 
         private IEnumerator DrawBulletTrail(RaycastHit2D hitInfo)
@@ -55,7 +55,8 @@ namespace Attacks
 
         protected virtual bool CheckHit(out RaycastHit2D hitInfo)
         {
-            hitInfo = Physics2D.Raycast(muzzleTransform.position, muzzleTransform.right, shootingRange, possibleHitLayer);
+            hitInfo = Physics2D.Raycast(muzzleTransform.position, muzzleTransform.right, shootingRange,
+                possibleHitLayer);
             return !hitInfo;
         }
     }
