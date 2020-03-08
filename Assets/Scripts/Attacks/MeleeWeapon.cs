@@ -30,7 +30,7 @@ namespace Attacks
 
         protected override bool CantDamage()
         {
-            return !playerInput.canShoot || !(timer >= timeBetweenAttack);
+            return !playerInput.canAttack || !(timer >= timeBetweenAttack);
         }
 
         private void DisableOnDead()

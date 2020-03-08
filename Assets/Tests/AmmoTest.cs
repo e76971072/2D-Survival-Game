@@ -1,5 +1,6 @@
 ﻿using Attacks;
 using NUnit.Framework;
+using NSubstitute;
 
 namespace Tests
 {
