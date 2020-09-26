@@ -11,22 +11,22 @@ namespace Attacks
 
         public bool IsReloading;
 
-        private readonly int maxAmmo;
-        private readonly int maxAmmoPerClip;
+        private readonly int _maxAmmo;
+        private readonly int _maxAmmoPerClip;
 
-        private int currentAmmo;
-        private int currentMaxAmmo;
+        private int _currentAmmo;
+        private int _currentMaxAmmo;
 
         public int CurrentMaxAmmo
         {
-            get => currentMaxAmmo;
-            private set => currentMaxAmmo = Mathf.Clamp(value, 0, maxAmmo);
+            get => _currentMaxAmmo;
+            private set => _currentMaxAmmo = Mathf.Clamp(value, 0, _maxAmmo);
         }
 
         public int CurrentAmmo
         {
-            get => currentAmmo;
-            private set => currentAmmo = Mathf.Clamp(value, 0, maxAmmoPerClip);
+            get => _currentAmmo;
+            private set => _currentAmmo = Mathf.Clamp(value, 0, _maxAmmoPerClip);
         }
 
 
@@ -34,8 +34,8 @@ namespace Attacks
         {
             AmmoPickups.OnAmmoPickedUp += RefillAmmo;
 
-            this.maxAmmo = maxAmmo;
-            this.maxAmmoPerClip = maxAmmoPerClip;
+            this._maxAmmo = maxAmmo;
+            this._maxAmmoPerClip = maxAmmoPerClip;
             CurrentMaxAmmo = maxAmmo;
             CurrentAmmo = maxAmmoPerClip;
             OnAmmoChanged?.Invoke(this);
@@ -85,7 +85,7 @@ namespace Attacks
 
         private int GetReloadAmount()
         {
-            return CurrentMaxAmmo <= (maxAmmoPerClip - CurrentAmmo) ? CurrentMaxAmmo : (maxAmmoPerClip - CurrentAmmo);
+            return CurrentMaxAmmo <= (_maxAmmoPerClip - CurrentAmmo) ? CurrentMaxAmmo : (_maxAmmoPerClip - CurrentAmmo);
         }
     }
 }

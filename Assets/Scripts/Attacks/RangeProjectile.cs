@@ -14,18 +14,18 @@ namespace Attacks
 
         #region NonSerializeFields
 
-        protected Transform muzzleTransform;
+        protected Transform MuzzleTransform;
 
         #endregion
 
         protected virtual void Awake()
         {
-            muzzleTransform = transform;
+            MuzzleTransform = transform;
         }
 
         protected override void Shoot()
         {
-            var shotProjectile = Instantiate(projectilePrefab, muzzleTransform.position, Quaternion.identity);
+            var shotProjectile = Instantiate(projectilePrefab, MuzzleTransform.position, Quaternion.identity);
             shotProjectile.SetOwner(gameObject.layer);
 
             Vector2 targetDirection = GetTargetDirection();

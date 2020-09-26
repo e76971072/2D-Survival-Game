@@ -10,17 +10,17 @@ namespace Attacks
         [SerializeField] private int damage;
         [SerializeField] private GameObject explosionPrefab;
 
-        private int owner;
-        private Rigidbody2D rigidbody2D;
+        private int _owner;
+        private Rigidbody2D _rigidbody2D;
 
         private void Awake()
         {
-            rigidbody2D = GetComponent<Rigidbody2D>();
+            _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.layer == owner) return;
+            if (other.gameObject.layer == _owner) return;
             if (other.GetComponent<IDamageable>() != null)
             {
                 other.GetComponent<IDamageable>().TakeDamage(damage);
@@ -33,12 +33,12 @@ namespace Attacks
 
         public void AddForce(Vector2 moveForce)
         {
-            rigidbody2D.AddForce(moveForce);
+            _rigidbody2D.AddForce(moveForce);
         }
 
         public void SetOwner(int ownerLayerMask)
         {
-            owner = ownerLayerMask;
+            _owner = ownerLayerMask;
         }
 
         private void OnDrawGizmos()

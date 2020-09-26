@@ -7,7 +7,7 @@ namespace Enemy
     {
         [SerializeField] private int maxShield = 100;
 
-        private int currentShield = 100;
+        private int _currentShield = 100;
 
         public int MaxShield => maxShield;
 
@@ -19,11 +19,11 @@ namespace Enemy
 
         public int CurrentShield
         {
-            get => currentShield;
+            get => _currentShield;
             private set
             {
-                currentShield = value;
-                currentShield = Mathf.Clamp(currentShield, 0, maxShield);
+                _currentShield = value;
+                _currentShield = Mathf.Clamp(_currentShield, 0, maxShield);
             }
         }
 

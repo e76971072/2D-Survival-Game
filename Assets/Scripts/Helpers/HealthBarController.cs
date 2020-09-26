@@ -8,34 +8,34 @@ namespace Helpers
     {
         [SerializeField] private HealthBar healthBar;
 
-        private readonly Dictionary<Health, HealthBar> healthBars = new Dictionary<Health, HealthBar>();
+        private readonly Dictionary<Health, HealthBar> _healthBars = new Dictionary<Health, HealthBar>();
 
         private void Awake()
         {
-            healthBars.Clear();
+            _healthBars.Clear();
             Health.OnHealthAdded += AddHealthBar;
             Health.OnHealthRemoved += RemoveHealthBar;
         }
 
         private void AddHealthBar(Health health)
         {
-            if (healthBars.ContainsKey(health)) return;
+            if (_healthBars.ContainsKey(health)) return;
 
             var newHealthBar = Instantiate(healthBar, gameObject.transform);
-            healthBars.Add(health, newHealthBar);
+            _healthBars.Add(health, newHealthBar);
             newHealthBar.SetHealth(health);
         }
 
         private void RemoveHealthBar(Health health)
         {
-            if (!healthBars.ContainsKey(health)) return;
+            if (!_healthBars.ContainsKey(health)) return;
 
-            if (healthBars[health] != null)
+            if (_healthBars[health] != null)
             {
-                Destroy(healthBars[health].gameObject);
+                Destroy(_healthBars[health].gameObject);
             }
-            healthBars.Remove(health);
-            if (healthBars.Count != 0) return;
+            _healthBars.Remove(health);
+            if (_healthBars.Count != 0) return;
 
             Health.OnHealthAdded -= AddHealthBar;
             Health.OnHealthRemoved -= RemoveHealthBar;

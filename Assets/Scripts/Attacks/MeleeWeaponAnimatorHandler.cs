@@ -5,11 +5,11 @@ namespace Attacks
 {
     public class MeleeWeaponAnimatorHandler : AnimatorHandler
     {
-        private readonly int attackParameter = Animator.StringToHash("Attack");
+        private readonly int _attackParameter = Animator.StringToHash("Attack");
         
         public void PlayAttackAnimation()
         {
-            animator.SetTrigger(attackParameter);
+            Animator.SetTrigger(_attackParameter);
         }
     }
 }

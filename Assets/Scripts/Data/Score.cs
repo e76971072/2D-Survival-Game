@@ -13,15 +13,15 @@ namespace Data
         private static Score _instance;
 
         private const string Highscore = "highscore";
-        private int currentScore;
+        private int _currentScore;
         public int ScoreIncrement = 10;
 
         public int CurrentScore
         {
-            get => currentScore;
+            get => _currentScore;
             private set
             {
-                currentScore = Mathf.Clamp(value, 0, int.MaxValue);
+                _currentScore = Mathf.Clamp(value, 0, int.MaxValue);
                 OnScoreChanged?.Invoke(CurrentScore);
             }
         }

@@ -9,7 +9,7 @@ namespace Helpers
         [Range(0.75f, 3f)] [SerializeField] private float minPitchRange;
         [Range(1f, 3f)] [SerializeField] private float maxPitchRange;
 
-        private AudioSource audioSource;
+        private AudioSource _audioSource;
 
         private void OnValidate()
         {
@@ -19,14 +19,14 @@ namespace Helpers
 
         private void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         public void PlayAudioSource()
         {
-            audioSource.Stop();
-            audioSource.pitch = GetRandomPitch();
-            audioSource.Play();
+            _audioSource.Stop();
+            _audioSource.pitch = GetRandomPitch();
+            _audioSource.Play();
         }
 
         private float GetRandomPitch()

@@ -9,7 +9,7 @@ namespace Pools
         
         [SerializeField] private T prefab;
 
-        private readonly Queue<T> objects = new Queue<T>();
+        private readonly Queue<T> _objects = new Queue<T>();
         
         private void Awake()
         {
@@ -18,25 +18,25 @@ namespace Pools
 
         public T Get()
         {
-            if (objects.Count == 0)
+            if (_objects.Count == 0)
             {
                 AddObjects(1);
             }
             
-            return objects.Dequeue();
+            return _objects.Dequeue();
         }
 
         public void ReturnToPool(T objectToReturn)
         {
             objectToReturn.gameObject.SetActive(false);
-            objects.Enqueue(objectToReturn);
+            _objects.Enqueue(objectToReturn);
         }
 
         private void AddObjects(int i)
         {
             var newObject = Instantiate(prefab);
             newObject.gameObject.SetActive(false);
-            objects.Enqueue(newObject);
+            _objects.Enqueue(newObject);
         }
     }
 }

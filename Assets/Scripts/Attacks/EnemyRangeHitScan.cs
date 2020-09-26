@@ -5,30 +5,30 @@ namespace Attacks
 {
     public class EnemyRangeHitScan : RangeHitScan
     {
-        private Transform playerTransform;
+        private Transform _playerTransform;
 
         protected override void Awake()
         {
-            muzzleTransform = transform;
-            playerTransform = GameManager.Instance.player.transform;
+            MuzzleTransform = transform;
+            _playerTransform = GameManager.Instance.player.transform;
         }
 
         protected override void Update()
         {
-            if (!playerTransform) return;
+            if (!_playerTransform) return;
 
             base.Update();
         }
 
         protected override bool CantShoot()
         {
-            return !(Time.time >= nextTimeToFire);
+            return !(Time.time >= NextTimeToFire);
         }
 
         protected override bool CheckHit(out RaycastHit2D hitInfo)
         {
-            Vector2 position = muzzleTransform.position;
-            var targetDirection = (Vector2) playerTransform.position - position;
+            Vector2 position = MuzzleTransform.position;
+            var targetDirection = (Vector2) _playerTransform.position - position;
             hitInfo = Physics2D.Raycast(position, targetDirection, shootingRange, possibleHitLayer);
             return !hitInfo;
         }

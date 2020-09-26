@@ -14,18 +14,18 @@ namespace Enemy
         [SerializeField] private LayerMask targetLayerMask;
         [SerializeField] private float timeToExplode = 2f;
 
-        private Animator animator;
+        private Animator _animator;
         private static readonly int AnimDieParam = Animator.StringToHash("Die");
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
         }
 
         public override void Die()
         {
             base.Die();
-            animator.SetBool(AnimDieParam, true);
+            _animator.SetBool(AnimDieParam, true);
             GetComponent<AIPath>().enabled = false;
             StartCoroutine(Explode());
         }

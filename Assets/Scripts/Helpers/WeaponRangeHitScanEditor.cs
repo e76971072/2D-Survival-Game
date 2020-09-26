@@ -10,43 +10,43 @@ namespace Helpers
     [CanEditMultipleObjects]
     public class WeaponRangeHitScanEditor : Editor
     {
-        private SerializedProperty firingRateProp;
-        private SerializedProperty damageProp;
-        private SerializedProperty shootingRangeProp;
+        private SerializedProperty _firingRateProp;
+        private SerializedProperty _damageProp;
+        private SerializedProperty _shootingRangeProp;
 
-        private SerializedProperty possibleHitLayerProp;
-        private SerializedProperty targetTagProp;
+        private SerializedProperty _possibleHitLayerProp;
+        private SerializedProperty _targetTagProp;
 
-        private SerializedProperty gunHitEffectProp;
-        private SerializedProperty hitEffectDurationProp;
+        private SerializedProperty _gunHitEffectProp;
+        private SerializedProperty _hitEffectDurationProp;
 
-        private SerializedProperty useAmmoProp;
-        private SerializedProperty maxAmmoProp;
-        private SerializedProperty maxAmmoPerClipProp;
-        private SerializedProperty reloadTimeProp;
+        private SerializedProperty _useAmmoProp;
+        private SerializedProperty _maxAmmoProp;
+        private SerializedProperty _maxAmmoPerClipProp;
+        private SerializedProperty _reloadTimeProp;
 
-        private SerializedProperty playerInputProp;
+        private SerializedProperty _playerInputProp;
 
-        private GameObject gameObject;
+        private GameObject _gameObject;
 
         private void OnEnable()
         {
-            firingRateProp = serializedObject.FindProperty("firingRate");
-            damageProp = serializedObject.FindProperty("damage");
-            shootingRangeProp = serializedObject.FindProperty("shootingRange");
+            _firingRateProp = serializedObject.FindProperty("firingRate");
+            _damageProp = serializedObject.FindProperty("damage");
+            _shootingRangeProp = serializedObject.FindProperty("shootingRange");
 
-            possibleHitLayerProp = serializedObject.FindProperty("possibleHitLayer");
-            targetTagProp = serializedObject.FindProperty("targetTag");
+            _possibleHitLayerProp = serializedObject.FindProperty("possibleHitLayer");
+            _targetTagProp = serializedObject.FindProperty("targetTag");
 
-            gunHitEffectProp = serializedObject.FindProperty("gunHitEffect");
-            hitEffectDurationProp = serializedObject.FindProperty("hitEffectDuration");
+            _gunHitEffectProp = serializedObject.FindProperty("gunHitEffect");
+            _hitEffectDurationProp = serializedObject.FindProperty("hitEffectDuration");
 
-            useAmmoProp = serializedObject.FindProperty("useAmmo");
-            maxAmmoProp = serializedObject.FindProperty("maxAmmo");
-            maxAmmoPerClipProp = serializedObject.FindProperty("maxAmmoPerClip");
-            reloadTimeProp = serializedObject.FindProperty("reloadTime");
+            _useAmmoProp = serializedObject.FindProperty("useAmmo");
+            _maxAmmoProp = serializedObject.FindProperty("maxAmmo");
+            _maxAmmoPerClipProp = serializedObject.FindProperty("maxAmmoPerClip");
+            _reloadTimeProp = serializedObject.FindProperty("reloadTime");
 
-            playerInputProp = serializedObject.FindProperty("playerInput");
+            _playerInputProp = serializedObject.FindProperty("playerInput");
         }
         
         public override void OnInspectorGUI()
@@ -54,34 +54,34 @@ namespace Helpers
             serializedObject.Update();
 
             EditorGUILayout.LabelField("Basic Gun Config", EditorStyles.boldLabel);
-            firingRateProp.floatValue = EditorGUILayout.FloatField("Firing Rate", firingRateProp.floatValue);
-            damageProp.intValue = EditorGUILayout.IntField("Damage", damageProp.intValue);
-            shootingRangeProp.floatValue = EditorGUILayout.FloatField("Shooting Range", shootingRangeProp.floatValue);
+            _firingRateProp.floatValue = EditorGUILayout.FloatField("Firing Rate", _firingRateProp.floatValue);
+            _damageProp.intValue = EditorGUILayout.IntField("Damage", _damageProp.intValue);
+            _shootingRangeProp.floatValue = EditorGUILayout.FloatField("Shooting Range", _shootingRangeProp.floatValue);
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Gun Physics Config", EditorStyles.boldLabel);
-            possibleHitLayerProp.intValue = LayerMaskField("Possible Hit Layer", possibleHitLayerProp.intValue);
-            targetTagProp.stringValue = EditorGUILayout.TagField("Target Tag", targetTagProp.stringValue);
+            _possibleHitLayerProp.intValue = LayerMaskField("Possible Hit Layer", _possibleHitLayerProp.intValue);
+            _targetTagProp.stringValue = EditorGUILayout.TagField("Target Tag", _targetTagProp.stringValue);
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Hit Effect Config", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(gunHitEffectProp, new GUIContent("Gun Hit Effect Prefab"));
-            hitEffectDurationProp.floatValue =
-                EditorGUILayout.FloatField("Hit Effect Duration", hitEffectDurationProp.floatValue);
+            EditorGUILayout.PropertyField(_gunHitEffectProp, new GUIContent("Gun Hit Effect Prefab"));
+            _hitEffectDurationProp.floatValue =
+                EditorGUILayout.FloatField("Hit Effect Duration", _hitEffectDurationProp.floatValue);
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Ammo Config", EditorStyles.boldLabel);
-            useAmmoProp.boolValue = GUILayout.Toggle(useAmmoProp.boolValue, "Use Ammo");
-            if (useAmmoProp.boolValue)
+            _useAmmoProp.boolValue = GUILayout.Toggle(_useAmmoProp.boolValue, "Use Ammo");
+            if (_useAmmoProp.boolValue)
             {
-                maxAmmoProp.intValue = EditorGUILayout.IntField("Max Ammo", maxAmmoProp.intValue);
-                maxAmmoPerClipProp.intValue =
-                    EditorGUILayout.IntField("Max Ammo Per Clip", maxAmmoPerClipProp.intValue);
-                reloadTimeProp.floatValue = EditorGUILayout.FloatField("Reload Time", reloadTimeProp.floatValue);
+                _maxAmmoProp.intValue = EditorGUILayout.IntField("Max Ammo", _maxAmmoProp.intValue);
+                _maxAmmoPerClipProp.intValue =
+                    EditorGUILayout.IntField("Max Ammo Per Clip", _maxAmmoPerClipProp.intValue);
+                _reloadTimeProp.floatValue = EditorGUILayout.FloatField("Reload Time", _reloadTimeProp.floatValue);
             }
             EditorGUILayout.Space();
 
-            EditorGUILayout.PropertyField(playerInputProp, new GUIContent("Player Input"));
+            EditorGUILayout.PropertyField(_playerInputProp, new GUIContent("Player Input"));
 
             serializedObject.ApplyModifiedProperties();
         }

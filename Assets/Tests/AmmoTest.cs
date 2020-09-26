@@ -5,46 +5,46 @@ namespace Tests
 {
     public class AmmoTest
     {
-        private Ammo ammo;
+        private Ammo _ammo;
         private const int DefaultMaxAmmo = 30;
         private const int DefaultMaxAmmoPerClip = 10;
 
         [SetUp]
         public void SetUp()
         {
-            ammo = new Ammo(DefaultMaxAmmo, DefaultMaxAmmoPerClip);
+            _ammo = new Ammo(DefaultMaxAmmo, DefaultMaxAmmoPerClip);
         }
         
         [Test]
         public void Ammo_Is_Empty_When_Both_Current_Ammo_And_Current_Max_Ammo_Is_0()
         {
-            ammo = new Ammo(0, 0);
+            _ammo = new Ammo(0, 0);
 
-            Assert.IsTrue(ammo.IsAmmoEmpty());
+            Assert.IsTrue(_ammo.IsAmmoEmpty());
         }
 
         [Test]
         public void Ammo_Is_Not_Empty_When_Only_Current_Ammo_Is_0()
         {
-            ammo = new Ammo(0, DefaultMaxAmmoPerClip);
+            _ammo = new Ammo(0, DefaultMaxAmmoPerClip);
 
-            Assert.IsFalse(ammo.IsAmmoEmpty());
+            Assert.IsFalse(_ammo.IsAmmoEmpty());
         }
 
         [Test]
         public void Ammo_Is_Not_Empty_When_Only_Current_Max_Ammo_Is_0()
         {
-            ammo = new Ammo(DefaultMaxAmmo, 0);
+            _ammo = new Ammo(DefaultMaxAmmo, 0);
 
-            Assert.IsFalse(ammo.IsAmmoEmpty());
+            Assert.IsFalse(_ammo.IsAmmoEmpty());
         }
 
         [Test]
         public void Current_Ammo_Only_Reduced_By_1_When_Calling_Reduce_Ammo()
         {
-            ammo.ReduceCurrentAmmo();
+            _ammo.ReduceCurrentAmmo();
             
-            Assert.AreEqual(DefaultMaxAmmoPerClip - 1, ammo.CurrentAmmo);
+            Assert.AreEqual(DefaultMaxAmmoPerClip - 1, _ammo.CurrentAmmo);
         }
         
         [Test]
@@ -52,10 +52,10 @@ namespace Tests
         {
             for (var i = 0; i < DefaultMaxAmmoPerClip + 10; i++)
             {
-                ammo.ReduceCurrentAmmo();
+                _ammo.ReduceCurrentAmmo();
             }
             
-            Assert.AreEqual(0, ammo.CurrentAmmo);
+            Assert.AreEqual(0, _ammo.CurrentAmmo);
         }
         
         [Test]
@@ -63,9 +63,9 @@ namespace Tests
         {
             const int reduceAmount = 5;
             
-            ammo.ReduceCurrentAmmo(reduceAmount);
+            _ammo.ReduceCurrentAmmo(reduceAmount);
             
-            Assert.AreEqual(DefaultMaxAmmoPerClip - reduceAmount, ammo.CurrentAmmo);
+            Assert.AreEqual(DefaultMaxAmmoPerClip - reduceAmount, _ammo.CurrentAmmo);
         }
         
         [Test]
@@ -73,36 +73,36 @@ namespace Tests
         {
             const int reduceAmount = DefaultMaxAmmoPerClip + 10;
             
-            ammo.ReduceCurrentAmmo(reduceAmount);
+            _ammo.ReduceCurrentAmmo(reduceAmount);
             
-            Assert.AreEqual(0, ammo.CurrentAmmo);
+            Assert.AreEqual(0, _ammo.CurrentAmmo);
         }
         
         [Test]
         public void Emptying_Current_Ammo_Then_Reload_Reset_Current_Ammo_Back_To_Full()
         {
-            ammo.ReduceCurrentAmmo(DefaultMaxAmmoPerClip);
-            ammo.Reload();
+            _ammo.ReduceCurrentAmmo(DefaultMaxAmmoPerClip);
+            _ammo.Reload();
             
-            Assert.AreEqual(DefaultMaxAmmoPerClip, ammo.CurrentAmmo);
+            Assert.AreEqual(DefaultMaxAmmoPerClip, _ammo.CurrentAmmo);
         }
 
         [Test]
         public void Emptying_Current_Ammo_Then_Reload_Subtract_The_Reload_Amount_From_Current_Max_Ammo()
         {
-            ammo.ReduceCurrentAmmo(DefaultMaxAmmoPerClip);
-            ammo.Reload();
+            _ammo.ReduceCurrentAmmo(DefaultMaxAmmoPerClip);
+            _ammo.Reload();
             
-            Assert.AreEqual(DefaultMaxAmmo - DefaultMaxAmmoPerClip, ammo.CurrentMaxAmmo);
+            Assert.AreEqual(DefaultMaxAmmo - DefaultMaxAmmoPerClip, _ammo.CurrentMaxAmmo);
         }
         
         [Test]
         public void Reduce_Current_Ammo_By_5_Then_Reload_Reset_Current_Ammo_Back_To_Full()
         {
-            ammo.ReduceCurrentAmmo(5);
-            ammo.Reload();
+            _ammo.ReduceCurrentAmmo(5);
+            _ammo.Reload();
             
-            Assert.AreEqual(DefaultMaxAmmoPerClip, ammo.CurrentAmmo);
+            Assert.AreEqual(DefaultMaxAmmoPerClip, _ammo.CurrentAmmo);
         }
         
         [Test]
@@ -110,10 +110,10 @@ namespace Tests
         {
             const int reduceAmount = 5;
             
-            ammo.ReduceCurrentAmmo(reduceAmount);
-            ammo.Reload();
+            _ammo.ReduceCurrentAmmo(reduceAmount);
+            _ammo.Reload();
             
-            Assert.AreEqual(DefaultMaxAmmo - reduceAmount, ammo.CurrentMaxAmmo);
+            Assert.AreEqual(DefaultMaxAmmo - reduceAmount, _ammo.CurrentMaxAmmo);
         }
         
         [Test]
@@ -121,13 +121,13 @@ namespace Tests
         {
             const int maxAmmo = 5;
             const int maxAmmoPerClip = 10;
-            ammo = new Ammo(maxAmmo, maxAmmoPerClip);
+            _ammo = new Ammo(maxAmmo, maxAmmoPerClip);
             const int reduceAmount = 8;
             
-            ammo.ReduceCurrentAmmo(reduceAmount);
-            ammo.Reload();
+            _ammo.ReduceCurrentAmmo(reduceAmount);
+            _ammo.Reload();
 
-            Assert.AreEqual(maxAmmoPerClip - reduceAmount + maxAmmo, ammo.CurrentAmmo);
+            Assert.AreEqual(maxAmmoPerClip - reduceAmount + maxAmmo, _ammo.CurrentAmmo);
         }
     }
 }

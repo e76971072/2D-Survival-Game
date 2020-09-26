@@ -6,24 +6,24 @@ namespace Enemy
     [RequireComponent(typeof(AIPath))]
     public class EnemySpriteFlip : MonoBehaviour
     {
-        private AIPath aiPath;
-        private SpriteRenderer spriteRenderer;
+        private AIPath _aiPath;
+        private SpriteRenderer _spriteRenderer;
 
         private void Awake()
         {
-            aiPath = GetComponent<AIPath>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            _aiPath = GetComponent<AIPath>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Update()
         {
-            if (aiPath.velocity.x > 0)
+            if (_aiPath.velocity.x > 0)
             {
-                spriteRenderer.flipX = false;
+                _spriteRenderer.flipX = false;
             }
-            else if (aiPath.velocity.x < 0)
+            else if (_aiPath.velocity.x < 0)
             {
-                spriteRenderer.flipX = true;
+                _spriteRenderer.flipX = true;
             }
         }
     }

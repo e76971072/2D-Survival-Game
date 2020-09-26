@@ -12,7 +12,7 @@ namespace Player
         [HideInInspector] public float h, v;
         [HideInInspector] public Vector2 rotateDirection;
 
-        private bool readyToClear;
+        private bool _readyToClear;
 
         private void Update()
         {
@@ -26,7 +26,7 @@ namespace Player
 
         private void ClearInput()
         {
-            if (!readyToClear)
+            if (!_readyToClear)
                 return;
 
             h = 0f;
@@ -34,7 +34,7 @@ namespace Player
             rotateDirection = Vector2.zero;
             canShoot = false;
 
-            readyToClear = false;
+            _readyToClear = false;
         }
 
         private void ProcessInputs()
@@ -50,7 +50,7 @@ namespace Player
 
         private void FixedUpdate()
         {
-            readyToClear = true;
+            _readyToClear = true;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Attacks
         [SerializeField] private float reloadTime = 1f;
         [SerializeField] private PlayerInput playerInput;
 
-        private Ammo ammo;
+        private Ammo _ammo;
 
         private void OnValidate()
         {
@@ -25,23 +25,23 @@ namespace Attacks
             base.Awake();
             if (useAmmo)
             {
-                ammo = new Ammo(maxAmmo, maxAmmoPerClip);
+                _ammo = new Ammo(maxAmmo, maxAmmoPerClip);
             }
 
-            muzzleTransform = transform.GetChild(0).GetComponent<Transform>();
+            MuzzleTransform = transform.GetChild(0).GetComponent<Transform>();
         }
 
         protected override void Shoot()
         {
             if (useAmmo)
             {
-                if (ammo.CurrentAmmo <= 0 && !ammo.IsReloading)
+                if (_ammo.CurrentAmmo <= 0 && !_ammo.IsReloading)
                 {
                     StartCoroutine(ReloadAmmo());
                     return;
                 }
 
-                ammo.ReduceCurrentAmmo();
+                _ammo.ReduceCurrentAmmo();
             }
 
             base.Shoot();
@@ -49,29 +49,29 @@ namespace Attacks
 
         private IEnumerator ReloadAmmo()
         {
-            ammo.IsReloading = true;
+            _ammo.IsReloading = true;
             yield return new WaitForSeconds(reloadTime);
-            ammo.Reload();
+            _ammo.Reload();
         }
 
         protected override bool CantShoot()
         {
             if (useAmmo)
             {
-                return !playerInput.canShoot || !(Time.time >= nextTimeToFire) || ammo.IsAmmoEmpty() ||
-                       ammo.IsReloading;
+                return !playerInput.canShoot || !(Time.time >= NextTimeToFire) || _ammo.IsAmmoEmpty() ||
+                       _ammo.IsReloading;
             }
 
-            return !playerInput.canShoot || !(Time.time >= nextTimeToFire);
+            return !playerInput.canShoot || !(Time.time >= NextTimeToFire);
         }
 
         private void OnDisable()
         {
-            bulletLineRenderer.enabled = false;
+            BulletLineRenderer.enabled = false;
 
             if (useAmmo)
             {
-                ammo.IsReloading = false;
+                _ammo.IsReloading = false;
             }
         }
     }

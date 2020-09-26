@@ -20,17 +20,17 @@ namespace Props
 
         #region NonExposedFields
 
-        private int currentHealth;
+        private int _currentHealth;
 
         protected int CurrentHealth
         {
-            get => currentHealth;
+            get => _currentHealth;
             set
             {
-                currentHealth = value;
-                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+                _currentHealth = value;
+                _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
 
-                var currentHealthPct = (float) currentHealth / maxHealth;
+                var currentHealthPct = (float) _currentHealth / maxHealth;
                 OnHealthPctChanged?.Invoke(currentHealthPct);
             }
         }

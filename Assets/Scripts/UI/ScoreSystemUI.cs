@@ -24,9 +24,9 @@ namespace UI
 
         #region NonSerializeFields
 
-        private float currentTimer;
-        private Animator comboTextAnimator;
-        private Color timerImageInitColor;
+        private float _currentTimer;
+        private Animator _comboTextAnimator;
+        private Color _timerImageInitColor;
 
         private static readonly int Hit = Animator.StringToHash("Hit");
         private static readonly int ShouldFlick = Animator.StringToHash("ShouldFlick");
@@ -42,8 +42,8 @@ namespace UI
 
         private void Awake()
         {
-            comboTextAnimator = comboText.GetComponent<Animator>();
-            timerImageInitColor = timerImage.color;
+            _comboTextAnimator = comboText.GetComponent<Animator>();
+            _timerImageInitColor = timerImage.color;
 
             Score.Instance.ResetScore();
             Score.Instance.ScoreIncrement = scoreIncrement;
@@ -57,7 +57,7 @@ namespace UI
         private void UpdateComboText(int currentCombo)
         {
             comboText.text = $"x{currentCombo}";
-            comboTextAnimator.SetTrigger(Hit);
+            _comboTextAnimator.SetTrigger(Hit);
         }
 
         private void UpdateScoreText(int currentScore)
@@ -67,7 +67,7 @@ namespace UI
 
         private void UpdateComboTimerText()
         {
-            timerImage.fillAmount = currentTimer / maxResetTime;
+            timerImage.fillAmount = _currentTimer / maxResetTime;
         }
 
         private void TimerCoroutineController()
@@ -78,18 +78,18 @@ namespace UI
 
         private IEnumerator ComboTimer()
         {
-            currentTimer = maxResetTime;
-            comboTextAnimator.SetBool(ShouldFlick, false);
-            comboTextAnimator.SetFloat(FlickSpeed, 0);
-            while (currentTimer > 0)
+            _currentTimer = maxResetTime;
+            _comboTextAnimator.SetBool(ShouldFlick, false);
+            _comboTextAnimator.SetFloat(FlickSpeed, 0);
+            while (_currentTimer > 0)
             {
                 UpdateComboTimerText();
-                timerImage.color = Color.Lerp(Color.red, timerImageInitColor, currentTimer / maxResetTime);
-                currentTimer -= Time.deltaTime;
-                if (currentTimer <= maxResetTime / 2)
+                timerImage.color = Color.Lerp(Color.red, _timerImageInitColor, _currentTimer / maxResetTime);
+                _currentTimer -= Time.deltaTime;
+                if (_currentTimer <= maxResetTime / 2)
                 {
-                    comboTextAnimator.SetBool(ShouldFlick, true);
-                    comboTextAnimator.SetFloat(FlickSpeed, maxResetTime / currentTimer);
+                    _comboTextAnimator.SetBool(ShouldFlick, true);
+                    _comboTextAnimator.SetFloat(FlickSpeed, maxResetTime / _currentTimer);
                 }
 
                 yield return null;
@@ -100,7 +100,7 @@ namespace UI
 
         private void OnComboEnd()
         {
-            comboTextAnimator.SetBool(EndCombo, true);
+            _comboTextAnimator.SetBool(EndCombo, true);
             UIManager.Instance.SetLosingReasonText("Combo End!");
             GameManager.Instance.GameLost();
         }

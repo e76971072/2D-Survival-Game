@@ -8,7 +8,7 @@ namespace Attacks
     {
         protected override bool CantDamage()
         {
-            return !(timer >= timeBetweenAttack);
+            return !(Timer >= timeBetweenAttack);
         }
 
         private void OnCollisionStay2D(Collision2D other)

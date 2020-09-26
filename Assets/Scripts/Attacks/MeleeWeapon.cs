@@ -9,11 +9,11 @@ namespace Attacks
     {
         [SerializeField] private PlayerInput playerInput;
         
-        private MeleeWeaponAnimatorHandler animatorHandler;
+        private MeleeWeaponAnimatorHandler _animatorHandler;
         
         protected override void Awake()
         {
-            animatorHandler = GetComponent<MeleeWeaponAnimatorHandler>();
+            _animatorHandler = GetComponent<MeleeWeaponAnimatorHandler>();
             GameManager.OnGameLost += DisableOnDead;
             base.Awake();
         }
@@ -24,13 +24,13 @@ namespace Attacks
 
             if (CantDamage()) return;
 
-            animatorHandler.PlayAttackAnimation();
+            _animatorHandler.PlayAttackAnimation();
             Attack();
         }
 
         protected override bool CantDamage()
         {
-            return !playerInput.canShoot || !(timer >= timeBetweenAttack);
+            return !playerInput.canShoot || !(Timer >= timeBetweenAttack);
         }
 
         private void DisableOnDead()
@@ -41,7 +41,7 @@ namespace Attacks
 
         private void OnDisable()
         {
-            timer = timeBetweenAttack;
+            Timer = timeBetweenAttack;
         }
 
         private void OnDestroy()

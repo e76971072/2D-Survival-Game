@@ -18,7 +18,7 @@ namespace Props
 
         #endregion
 
-        private Health health;
+        private Health _health;
 
         private void Awake()
         {
@@ -27,7 +27,7 @@ namespace Props
 
         public void SetHealth(Health healthToSet)
         {
-            health = healthToSet;
+            _health = healthToSet;
             healthToSet.OnHealthPctChanged += HandleHealthChanged;
         }
 
@@ -63,13 +63,13 @@ namespace Props
         private void LateUpdate()
         {
             var worldToScreenPoint = GameManager.Instance.mainCamera
-                .WorldToScreenPoint(health.transform.position + positionOffset * Vector3.up);
+                .WorldToScreenPoint(_health.transform.position + positionOffset * Vector3.up);
             transform.position = worldToScreenPoint;
         }
 
         private void OnDestroy()
         {
-            health.OnHealthPctChanged -= HandleHealthChanged;
+            _health.OnHealthPctChanged -= HandleHealthChanged;
         }
     }
 }

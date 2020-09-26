@@ -5,18 +5,18 @@ namespace Helpers
 {
     public class WeaponSelector : MonoBehaviour
     {
-        private readonly Dictionary<int, GameObject> weaponDictionary = new Dictionary<int, GameObject>();
-        private int currentWeaponIndex;
+        private readonly Dictionary<int, GameObject> _weaponDictionary = new Dictionary<int, GameObject>();
+        private int _currentWeaponIndex;
 
         private void Awake()
         {
             for (var i = 0; i < transform.childCount; i++)
             {
                 var weapon = transform.GetChild(i).gameObject;
-                weaponDictionary.Add(i + 1, weapon);
+                _weaponDictionary.Add(i + 1, weapon);
 
                 if (!weapon.activeSelf) continue;
-                currentWeaponIndex = i + 1;
+                _currentWeaponIndex = i + 1;
             }
         }
 
@@ -31,14 +31,14 @@ namespace Helpers
         private void SwitchWeapon()
         {
             var targetWeaponIndex = GetTargetWeaponIndex();
-            weaponDictionary[currentWeaponIndex].SetActive(false);
-            weaponDictionary[targetWeaponIndex].SetActive(true);
-            currentWeaponIndex = targetWeaponIndex;
+            _weaponDictionary[_currentWeaponIndex].SetActive(false);
+            _weaponDictionary[targetWeaponIndex].SetActive(true);
+            _currentWeaponIndex = targetWeaponIndex;
         }
 
         private int GetTargetWeaponIndex()
         {
-            return currentWeaponIndex == 1 ? 2 : 1;
+            return _currentWeaponIndex == 1 ? 2 : 1;
         }
     }
 }

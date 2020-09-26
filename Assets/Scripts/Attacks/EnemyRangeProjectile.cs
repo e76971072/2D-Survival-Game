@@ -5,29 +5,29 @@ namespace Attacks
 {
     public class EnemyRangeProjectile : RangeProjectile
     {
-        private Transform targetTransform;
+        private Transform _targetTransform;
 
         protected override void Awake()
         {
             base.Awake();
-            targetTransform = GameManager.Instance.player.transform;
+            _targetTransform = GameManager.Instance.player.transform;
         }
 
         protected override void Update()
         {
-            if (!targetTransform) return;
+            if (!_targetTransform) return;
 
             base.Update();
         }
 
         protected override bool CantShoot()
         {
-            return !(Time.time >= nextTimeToFire);
+            return !(Time.time >= NextTimeToFire);
         }
 
         protected override Vector3 GetTargetDirection()
         {
-            return (targetTransform.position - transform.position).normalized;
+            return (_targetTransform.position - transform.position).normalized;
         }
     }
 }

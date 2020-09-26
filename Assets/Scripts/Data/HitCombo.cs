@@ -9,14 +9,14 @@ namespace Data
         public static event Action<int> OnHitComboChanged;
 
         private static HitCombo _instance;
-        private int hitCombo;
+        private int _hitCombo;
 
         public int CurrentHitCombo
         {
-            get => hitCombo;
+            get => _hitCombo;
             private set
             {
-                hitCombo = Mathf.Clamp(value, 0, int.MaxValue);
+                _hitCombo = Mathf.Clamp(value, 0, int.MaxValue);
                 OnHitComboChanged?.Invoke(CurrentHitCombo);
             }
         }

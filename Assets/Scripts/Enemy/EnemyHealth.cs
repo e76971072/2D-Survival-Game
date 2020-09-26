@@ -18,28 +18,28 @@ namespace Enemy
     {
         public static event Action OnEnemyHit;
 
-        private IAudioHandler audioPlayer;
-        private DiedHandler diedHandler;
-        private AttackedAnimatorHandler enemyAnimatorHandler;
+        private IAudioHandler _audioPlayer;
+        private DiedHandler _diedHandler;
+        private AttackedAnimatorHandler _enemyAnimatorHandler;
 
         protected virtual void Awake()
         {
-            diedHandler = GetComponent<DiedHandler>();
-            enemyAnimatorHandler = GetComponent<AttackedAnimatorHandler>();
-            audioPlayer = GetComponent<IAudioHandler>();
+            _diedHandler = GetComponent<DiedHandler>();
+            _enemyAnimatorHandler = GetComponent<AttackedAnimatorHandler>();
+            _audioPlayer = GetComponent<IAudioHandler>();
         }
 
         public override void TakeDamage(int damageAmount)
         {
-            audioPlayer.PlayAudioSource();
-            enemyAnimatorHandler.PlayDamagedAnimation();
+            _audioPlayer.PlayAudioSource();
+            _enemyAnimatorHandler.PlayDamagedAnimation();
             OnEnemyHit?.Invoke();
             base.TakeDamage(damageAmount);
         }
 
         protected override void Die()
         {
-            diedHandler.Die();
+            _diedHandler.Die();
         }
     }
 }

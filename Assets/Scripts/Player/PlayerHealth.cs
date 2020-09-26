@@ -9,11 +9,11 @@ namespace Player
 {
     public class PlayerHealth : Health, IHealable
     {
-        private AttackedAnimatorHandler animatorHandler;
+        private AttackedAnimatorHandler _animatorHandler;
         
         private void Awake()
         {
-            animatorHandler = GetComponent<AttackedAnimatorHandler>();
+            _animatorHandler = GetComponent<AttackedAnimatorHandler>();
                             
             GameManager.OnGameLost += DisableOnDead;
             HealthPickups.OnHealthPickedUp += Heal;
@@ -27,7 +27,7 @@ namespace Player
 
         public override void TakeDamage(int damageAmount)
         {
-            animatorHandler.PlayDamagedAnimation();
+            _animatorHandler.PlayDamagedAnimation();
             base.TakeDamage(damageAmount);
         }
 

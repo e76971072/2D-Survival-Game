@@ -5,11 +5,11 @@ namespace Helpers
     [RequireComponent(typeof(Animator))]
     public abstract class AnimatorHandler : MonoBehaviour
     {
-        protected Animator animator;
+        protected Animator Animator;
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
         }
     }
 }

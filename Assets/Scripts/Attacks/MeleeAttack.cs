@@ -15,18 +15,18 @@ namespace Attacks
         [SerializeField] protected LayerMask targetLayerMask;
         [SerializeField] protected Transform attackPosition;
 
-        protected float timer;
+        protected float Timer;
 
         #endregion
 
         protected virtual void Awake()
         {
-            timer = timeBetweenAttack;
+            Timer = timeBetweenAttack;
         }
 
         protected virtual void Update()
         {
-            timer += Time.deltaTime;
+            Timer += Time.deltaTime;
         }
 
         protected void Attack()
@@ -44,7 +44,7 @@ namespace Attacks
 
         private void ResetAttackTime()
         {
-            timer = 0f;
+            Timer = 0f;
         }
         
         protected abstract bool CantDamage();

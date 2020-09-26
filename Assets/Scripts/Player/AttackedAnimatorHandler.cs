@@ -5,11 +5,11 @@ namespace Player
 {
     public class AttackedAnimatorHandler : AnimatorHandler
     {
-        private readonly int blink = Animator.StringToHash("Blink");
+        private readonly int _blink = Animator.StringToHash("Blink");
 
         public void PlayDamagedAnimation()
         {
-            animator.SetTrigger(blink);
+            Animator.SetTrigger(_blink);
         }
     }
 }

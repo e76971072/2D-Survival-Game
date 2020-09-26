@@ -6,13 +6,13 @@ namespace Attacks
     {
         [SerializeField] protected float firingRate;
 
-        protected float nextTimeToFire;
+        protected float NextTimeToFire;
 
         protected virtual void Update()
         {
             if (CantShoot()) return;
 
-            nextTimeToFire = Time.time + 1f / firingRate;
+            NextTimeToFire = Time.time + 1f / firingRate;
             Shoot();
         }
 

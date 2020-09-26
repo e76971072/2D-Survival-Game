@@ -16,41 +16,41 @@ namespace Player
 
         #region NonSerializeFields
 
-        private Vector2 movement;
-        private Transform playerTransform;
-        private SpriteRenderer spriteRenderer;
-        private PlayerInput playerInput;
+        private Vector2 _movement;
+        private Transform _playerTransform;
+        private SpriteRenderer _spriteRenderer;
+        private PlayerInput _playerInput;
 
         #endregion
         
         private void Awake()
         {
-            playerTransform = transform;
+            _playerTransform = transform;
 
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            playerInput = GetComponent<PlayerInput>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _playerInput = GetComponent<PlayerInput>();
 
             GameManager.OnGameLost += DisableOnDead;
         }
 
         private void FixedUpdate()
         {
-            CheckFlip(playerInput.h);
-            Move(playerInput.h, playerInput.v);
-            Rotate(playerInput.rotateDirection);
+            CheckFlip(_playerInput.h);
+            Move(_playerInput.h, _playerInput.v);
+            Rotate(_playerInput.rotateDirection);
         }
 
         private void CheckFlip(float h)
         {
             if (Math.Abs(h) < Mathf.Epsilon) return;
-            spriteRenderer.flipX = h < 0;
+            _spriteRenderer.flipX = h < 0;
         }
 
         private void Move(float h, float v)
         {
-            movement.Set(h, v);
-            movement = Time.deltaTime * speed * movement.normalized;
-            playerTransform.position += (Vector3) movement;
+            _movement.Set(h, v);
+            _movement = Time.deltaTime * speed * _movement.normalized;
+            _playerTransform.position += (Vector3) _movement;
         }
 
         private void Rotate(Vector2 rotateDirection)

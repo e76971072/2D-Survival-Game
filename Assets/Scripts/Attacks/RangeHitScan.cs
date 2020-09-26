@@ -20,15 +20,15 @@ namespace Attacks
 
         #region NonSerializeFields
 
-        protected Transform muzzleTransform;
-        protected LineRenderer bulletLineRenderer;
+        protected Transform MuzzleTransform;
+        protected LineRenderer BulletLineRenderer;
 
         #endregion
 
         protected virtual void Awake()
         {
-            bulletLineRenderer = GetComponent<LineRenderer>();
-            bulletLineRenderer.enabled = false;
+            BulletLineRenderer = GetComponent<LineRenderer>();
+            BulletLineRenderer.enabled = false;
         }
 
         protected override void Shoot()
@@ -46,16 +46,16 @@ namespace Attacks
 
         private IEnumerator DrawBulletTrail(RaycastHit2D hitInfo)
         {
-            bulletLineRenderer.SetPosition(0, muzzleTransform.position);
-            bulletLineRenderer.SetPosition(1, hitInfo.point);
-            bulletLineRenderer.enabled = true;
+            BulletLineRenderer.SetPosition(0, MuzzleTransform.position);
+            BulletLineRenderer.SetPosition(1, hitInfo.point);
+            BulletLineRenderer.enabled = true;
             yield return new WaitForSeconds(0.1f);
-            bulletLineRenderer.enabled = false;
+            BulletLineRenderer.enabled = false;
         }
 
         protected virtual bool CheckHit(out RaycastHit2D hitInfo)
         {
-            hitInfo = Physics2D.Raycast(muzzleTransform.position, muzzleTransform.right, shootingRange,
+            hitInfo = Physics2D.Raycast(MuzzleTransform.position, MuzzleTransform.right, shootingRange,
                 possibleHitLayer);
             return !hitInfo;
         }
