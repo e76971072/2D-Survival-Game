@@ -1,21 +1,22 @@
 ﻿using System;
 using Enemy;
 using Helpers;
+using Signals;
 using UnityEngine;
+using Zenject;
 
 namespace Data
 {
-    public class Score
+    public class Score: IDisposable, IInitializable
     {
-        public static Score Instance => _instance ?? (_instance = new Score());
         public static event Action<int> OnScoreChanged;
-
-        private static Score _instance;
-
+        public int ScoreIncrement = 10;
+        
         private const string Highscore = "highscore";
         private int _currentScore;
-        public int ScoreIncrement = 10;
+        private readonly SignalBus _signalBus;
 
+        public HitCombo HitCombo { get; }
         public int CurrentScore
         {
             get => _currentScore;
@@ -26,24 +27,22 @@ namespace Data
             }
         }
 
-        private Score()
+        public Score(SignalBus signalBus, HitCombo hitCombo)
         {
-            ResetScore();
-
-            GameManager.OnGameLost += SaveScore;
-            EnemyHealth.OnEnemyHit += IncreaseScore;
+            _signalBus = signalBus;
+            HitCombo = hitCombo;
         }
 
         public void ResetScore()
         {
             CurrentScore = 0;
-            HitCombo.Instance.ResetStreak();
+            HitCombo.ResetStreak();
         }
 
         public void IncreaseScore()
         {
-            HitCombo.Instance.IncreaseStreak();
-            CurrentScore += ScoreIncrement * HitCombo.Instance.CurrentHitCombo;
+            HitCombo.IncreaseStreak();
+            CurrentScore += ScoreIncrement * HitCombo.CurrentHitCombo;
         }
 
         private void SaveScore()
@@ -56,6 +55,18 @@ namespace Data
         public static int LoadHighScore()
         {
             return PlayerPrefs.GetInt(Highscore);
+        }
+
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<GameLostSignal>(SaveScore);
+        }
+
+        public void Initialize()
+        {
+            ResetScore();
+            _signalBus.Subscribe<GameLostSignal>(SaveScore);
+            EnemyHealth.OnEnemyHit += IncreaseScore;
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Data;
 using Enemy;
 using Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
@@ -27,6 +27,9 @@ namespace UI
         private float _currentTimer;
         private Animator _comboTextAnimator;
         private Color _timerImageInitColor;
+        private Score _score;
+        private GameManager _gameManager;
+        private UIManager _uiManager;
 
         private static readonly int Hit = Animator.StringToHash("Hit");
         private static readonly int ShouldFlick = Animator.StringToHash("ShouldFlick");
@@ -34,6 +37,14 @@ namespace UI
         private static readonly int EndCombo = Animator.StringToHash("EndCombo");
 
         #endregion
+
+        [Inject]
+        public void Construct(Score score, GameManager gameManager, UIManager uiManager)
+        {
+            _score = score;
+            _gameManager = gameManager;
+            _uiManager = uiManager;
+        }
 
         private void OnValidate()
         {
@@ -45,8 +56,8 @@ namespace UI
             _comboTextAnimator = comboText.GetComponent<Animator>();
             _timerImageInitColor = timerImage.color;
 
-            Score.Instance.ResetScore();
-            Score.Instance.ScoreIncrement = scoreIncrement;
+            _score.ResetScore();
+            _score.ScoreIncrement = scoreIncrement;
             
             Score.OnScoreChanged += UpdateScoreText;
             HitCombo.OnHitComboChanged += UpdateComboText;
@@ -101,8 +112,8 @@ namespace UI
         private void OnComboEnd()
         {
             _comboTextAnimator.SetBool(EndCombo, true);
-            UIManager.Instance.SetLosingReasonText("Combo End!");
-            GameManager.Instance.GameLost();
+            _uiManager.SetLosingReasonText("Combo End!");
+            _gameManager.GameLost();
         }
 
         private void OnDestroy()

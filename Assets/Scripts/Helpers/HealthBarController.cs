@@ -1,14 +1,20 @@
 ﻿using System.Collections.Generic;
 using Props;
 using UnityEngine;
+using Zenject;
 
 namespace Helpers
 {
     public class HealthBarController : MonoBehaviour
     {
-        [SerializeField] private HealthBar healthBar;
-
         private readonly Dictionary<Health, HealthBar> _healthBars = new Dictionary<Health, HealthBar>();
+        private HealthBar.Pool _healthBarPool;
+
+        [Inject]
+        public void Construct(HealthBar.Pool healthBarPool)
+        {
+            _healthBarPool = healthBarPool;
+        }
 
         private void Awake()
         {
@@ -20,22 +26,20 @@ namespace Helpers
         private void AddHealthBar(Health health)
         {
             if (_healthBars.ContainsKey(health)) return;
-
-            var newHealthBar = Instantiate(healthBar, gameObject.transform);
-            _healthBars.Add(health, newHealthBar);
+            
+            var newHealthBar = _healthBarPool.Spawn();
+            newHealthBar.transform.SetParent(transform);
             newHealthBar.SetHealth(health);
+            _healthBars.Add(health, newHealthBar);
         }
 
         private void RemoveHealthBar(Health health)
         {
             if (!_healthBars.ContainsKey(health)) return;
 
-            if (_healthBars[health] != null)
-            {
-                Destroy(_healthBars[health].gameObject);
-            }
+            _healthBarPool.Despawn(_healthBars[health]);
             _healthBars.Remove(health);
-            if (_healthBars.Count != 0) return;
+            if (_healthBarPool.NumTotal != 0) return;
 
             Health.OnHealthAdded -= AddHealthBar;
             Health.OnHealthRemoved -= RemoveHealthBar;

@@ -1,16 +1,24 @@
 ﻿using Helpers;
 using UnityEngine;
+using Zenject;
 
 namespace Attacks
 {
     public class EnemyRangeProjectile : RangeProjectile
     {
         private Transform _targetTransform;
+        private GameManager _gameManager;
+
+        [Inject]
+        public void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
 
         protected override void Awake()
         {
             base.Awake();
-            _targetTransform = GameManager.Instance.player.transform;
+            _targetTransform = _gameManager.player.transform;
         }
 
         protected override void Update()

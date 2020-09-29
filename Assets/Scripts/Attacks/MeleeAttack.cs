@@ -46,8 +46,6 @@ namespace Attacks
         {
             Timer = 0f;
         }
-        
-        protected abstract bool CantDamage();
 
         private void OnDrawGizmos()
         {

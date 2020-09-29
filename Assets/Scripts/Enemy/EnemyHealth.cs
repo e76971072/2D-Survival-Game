@@ -1,13 +1,8 @@
 ﻿using System;
-using Attacks;
-using Cinemachine;
-using Helpers;
 using Interfaces;
-using Pathfinding;
 using Player;
 using Props;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace Enemy
 {

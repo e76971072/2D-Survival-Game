@@ -36,7 +36,7 @@ namespace Pools
         {
             var newObject = Instantiate(prefab);
             newObject.gameObject.SetActive(false);
-            _objects.Enqueue(newObject);
+            _objects.Enqueue(newObject);                                                                                                              
         }
     }
 }

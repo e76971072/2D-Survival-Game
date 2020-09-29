@@ -1,6 +1,8 @@
 ﻿using Helpers;
 using Player;
+using Signals;
 using UnityEngine;
+using Zenject;
 
 namespace Attacks
 {
@@ -10,11 +12,12 @@ namespace Attacks
         [SerializeField] private PlayerInput playerInput;
         
         private MeleeWeaponAnimatorHandler _animatorHandler;
+        [Inject] private readonly SignalBus _signalBus;
         
         protected override void Awake()
         {
             _animatorHandler = GetComponent<MeleeWeaponAnimatorHandler>();
-            GameManager.OnGameLost += DisableOnDead;
+            _signalBus.Subscribe<GameLostSignal>(DisableOnDead);
             base.Awake();
         }
 
@@ -28,7 +31,7 @@ namespace Attacks
             Attack();
         }
 
-        protected override bool CantDamage()
+        protected virtual bool CantDamage()
         {
             return !playerInput.canShoot || !(Timer >= timeBetweenAttack);
         }
@@ -46,7 +49,7 @@ namespace Attacks
 
         private void OnDestroy()
         {
-            GameManager.OnGameLost -= DisableOnDead;
+            _signalBus.Unsubscribe<GameLostSignal>(DisableOnDead);
         }
     }
 }

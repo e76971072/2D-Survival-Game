@@ -1,38 +1,29 @@
 ﻿using System.Collections;
 using Data;
-using Helpers;
+using Signals;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
     public class UIManager : MonoBehaviour
     {
-        public static UIManager Instance { get; private set; }
-
         [SerializeField] private CanvasGroup loseMenuCanvas;
         [SerializeField] private TextMeshProUGUI highScoreText;
         [SerializeField] private TextMeshProUGUI losingReasonText;
         [SerializeField] private float canvasFadeSpeed;
 
         private Button[] _buttonArray;
+        [Inject] private readonly SignalBus _signalBus;
 
         private void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-            }
-
             _buttonArray = loseMenuCanvas.GetComponentsInChildren<Button>();
             
-            GameManager.OnGameLost += LoseMenuHandler;
+            _signalBus.Subscribe<GameLostSignal>(LoseMenuHandler);
         }
 
         private void Update()
@@ -86,7 +77,7 @@ namespace UI
 
         private void OnDestroy()
         {
-            GameManager.OnGameLost -= LoseMenuHandler;
+            _signalBus.Unsubscribe<GameLostSignal>(LoseMenuHandler);
         }
     }
 }

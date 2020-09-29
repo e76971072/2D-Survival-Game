@@ -9,7 +9,7 @@ namespace PickupsTypes
 
         [SerializeField] private int healAmount = 10;
 
-        protected override void OnPickedUp(Collider2D player)
+        protected override void OnPickedUp()
         {
             OnHealthPickedUp?.Invoke(healAmount);
             Destroy(gameObject);

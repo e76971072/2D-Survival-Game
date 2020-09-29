@@ -6,7 +6,7 @@ namespace Attacks
     [RequireComponent(typeof(Collider2D))]
     public class EnemyMeleeAttack : MeleeAttack
     {
-        protected override bool CantDamage()
+        protected virtual bool CantDamage()
         {
             return !(Timer >= timeBetweenAttack);
         }

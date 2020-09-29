@@ -10,20 +10,7 @@ namespace Enemy
         
         public virtual void Die()
         {
-            DisableMovementAndAttack();
-        }
-
-        private void DisableMovementAndAttack()
-        {
-            GetComponent<AIPath>().enabled = false;
-            GetComponent<Collider2D>().enabled = false;
-            if (GetComponent<MeleeAttack>())
-            {
-                GetComponent<MeleeAttack>().enabled = false;
-                return;
-            }
-
-            GetComponent<RangeAttack>().enabled = false;
+            
         }
     }
 }

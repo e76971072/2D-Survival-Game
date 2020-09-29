@@ -9,9 +9,9 @@ namespace PickupsTypes
         {
             if (!other.CompareTag("Player")) return;
 
-            OnPickedUp(other);
+            OnPickedUp();
         }
 
-        protected abstract void OnPickedUp(Collider2D player);
+        protected abstract void OnPickedUp();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using Helpers;
+using Signals;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
@@ -20,9 +22,10 @@ namespace Player
         private Transform _playerTransform;
         private SpriteRenderer _spriteRenderer;
         private PlayerInput _playerInput;
+        [Inject] private readonly SignalBus _signalBus;
 
         #endregion
-        
+
         private void Awake()
         {
             _playerTransform = transform;
@@ -30,7 +33,7 @@ namespace Player
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _playerInput = GetComponent<PlayerInput>();
 
-            GameManager.OnGameLost += DisableOnDead;
+            _signalBus.Subscribe<GameLostSignal>(DisableOnDead);
         }
 
         private void FixedUpdate()
@@ -67,7 +70,7 @@ namespace Player
 
         private void OnDisable()
         {
-            GameManager.OnGameLost -= DisableOnDead;
+            _signalBus.Unsubscribe<GameLostSignal>(DisableOnDead);
         }
     }
 }

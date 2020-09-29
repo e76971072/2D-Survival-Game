@@ -5,12 +5,9 @@ namespace Data
 {
     public class HitCombo
     {
-        public static HitCombo Instance => _instance ?? (_instance = new HitCombo());
         public static event Action<int> OnHitComboChanged;
 
-        private static HitCombo _instance;
         private int _hitCombo;
-
         public int CurrentHitCombo
         {
             get => _hitCombo;

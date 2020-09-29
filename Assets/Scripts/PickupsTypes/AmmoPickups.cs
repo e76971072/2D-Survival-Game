@@ -10,7 +10,7 @@ namespace PickupsTypes
 
         [SerializeField] private int ammoAmount = 10;
 
-        protected override void OnPickedUp(Collider2D player)
+        protected override void OnPickedUp()
         {
             OnAmmoPickedUp?.Invoke(ammoAmount);
             AmmoPickupsPool.Instance.ReturnToPool(this);

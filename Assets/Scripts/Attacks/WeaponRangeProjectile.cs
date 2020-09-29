@@ -1,10 +1,19 @@
 ﻿using Helpers;
 using UnityEngine;
+using Zenject;
 
 namespace Attacks
 {
     public class WeaponRangeProjectile : RangeProjectile
     {
+        private GameManager _gameManager;
+
+        [Inject]
+        public void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
+        
         protected override void Awake()
         {
             MuzzleTransform = transform.GetChild(0).GetComponent<Transform>();
@@ -12,12 +21,12 @@ namespace Attacks
 
         protected override bool CantShoot()
         {
-            return !GameManager.Instance.playerInput.canShoot || !(Time.time >= NextTimeToFire);
+            return !_gameManager.playerInput.canShoot || !(Time.time >= NextTimeToFire);
         }
 
         protected override Vector3 GetTargetDirection()
         {
-            return (GameManager.Instance.mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position)
+            return (_gameManager.mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position)
                 .normalized;
         }
     }

@@ -2,6 +2,7 @@
 using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Props
 {
@@ -14,15 +15,26 @@ namespace Props
         [SerializeField] private float updateSpeedInSec = 0.5f;
         [SerializeField] private float positionOffset = 1f;
         [SerializeField] private float fadeSeconds = 0.1f;
-        [SerializeField] private float shownSeconds = 2f;
 
         #endregion
 
         private Health _health;
+        private GameManager _gameManager;
+
+        [Inject]
+        public void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
 
         private void Awake()
         {
             FadeHealthBar(0, 0);
+        }
+
+        private void ResetHealthBar()
+        {
+            foregroundImage.fillAmount = 1f;
         }
 
         public void SetHealth(Health healthToSet)
@@ -62,14 +74,32 @@ namespace Props
 
         private void LateUpdate()
         {
-            var worldToScreenPoint = GameManager.Instance.mainCamera
+            var worldToScreenPoint = _gameManager.mainCamera
                 .WorldToScreenPoint(_health.transform.position + positionOffset * Vector3.up);
             transform.position = worldToScreenPoint;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _health.OnHealthPctChanged -= HandleHealthChanged;
+        }
+        
+        public class Pool : MemoryPool<HealthBar>
+        {
+            protected override void OnDespawned(HealthBar item)
+            {
+                base.OnDespawned(item);
+                
+                if (!item) return;
+                item.gameObject.SetActive(false);
+            }
+
+            protected override void OnSpawned(HealthBar item)
+            {
+                base.OnSpawned(item);
+                item.gameObject.SetActive(true);
+                item.ResetHealthBar();
+            }
         }
     }
 }

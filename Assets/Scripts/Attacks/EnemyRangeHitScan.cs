@@ -1,16 +1,24 @@
 ﻿using Helpers;
 using UnityEngine;
+using Zenject;
 
 namespace Attacks
 {
     public class EnemyRangeHitScan : RangeHitScan
     {
         private Transform _playerTransform;
+        private GameManager _gameManager;
+
+        [Inject]
+        public void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
 
         protected override void Awake()
         {
             MuzzleTransform = transform;
-            _playerTransform = GameManager.Instance.player.transform;
+            _playerTransform = _gameManager.player.transform;
         }
 
         protected override void Update()

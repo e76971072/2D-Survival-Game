@@ -2,27 +2,40 @@
 using Interfaces;
 using PickupsTypes;
 using Props;
+using Signals;
 using UI;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
     public class PlayerHealth : Health, IHealable
     {
         private AttackedAnimatorHandler _animatorHandler;
+        private UIManager _uiManager;
+        private GameManager _gameManager;
+        [Inject] private readonly SignalBus _signalBus;
+
+        [Inject]
+        public void Construct(UIManager uiManager, GameManager gameManager)
+        {
+            _uiManager = uiManager;
+            _gameManager = gameManager;
+        }
         
         private void Awake()
         {
             _animatorHandler = GetComponent<AttackedAnimatorHandler>();
-                            
-            GameManager.OnGameLost += DisableOnDead;
+            
+            _signalBus.Subscribe<GameLostSignal>(DisableOnDead);
+            // GameManager.OnGameLost += DisableOnDead;
             HealthPickups.OnHealthPickedUp += Heal;
         }
 
         protected override void Die()
         {
-            UIManager.Instance.SetLosingReasonText("You Died!");
-            GameManager.Instance.GameLost();
+            _uiManager.SetLosingReasonText("You Died!");
+            _gameManager.GameLost();
         }
 
         public override void TakeDamage(int damageAmount)
@@ -39,7 +52,8 @@ namespace Player
         protected override void OnDisable()
         {
             base.OnDisable();
-            GameManager.OnGameLost -= DisableOnDead;
+            _signalBus.Unsubscribe<GameLostSignal>(DisableOnDead);
+            // GameManager.OnGameLost -= DisableOnDead;
         }
 
         public void Heal(int healAmount)

@@ -1,5 +1,4 @@
 ﻿using System;
-using Data;
 using Interfaces;
 using UnityEngine;
 
@@ -36,10 +35,6 @@ namespace Props
         }
 
         #endregion
-
-        private void Awake()
-        {
-        }
 
         private void OnEnable()
         {
