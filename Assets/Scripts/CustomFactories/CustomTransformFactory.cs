@@ -3,7 +3,7 @@ using Zenject;
 
 namespace CustomFactories
 {
-    public class CustomTransformFactory : IFactory<Object, Transform>
+    public class CustomTransformFactory : IFactory<Object, Vector3, Quaternion, Transform, Transform>
     {
         private readonly DiContainer _diContainer;
         
@@ -12,13 +12,13 @@ namespace CustomFactories
             _diContainer = diContainer;
         }
 
-        public Transform Create(Object param)
+        public Transform Create(Object param, Vector3 position, Quaternion rotation, Transform parentTransform)
         {
-            return _diContainer.InstantiatePrefab(param).transform;
+            return _diContainer.InstantiatePrefab(param, position, rotation, parentTransform).transform;
         }
     }
 
-    public class PlaceholderTransformFactory : PlaceholderFactory<Object, Transform>
+    public class TransformFactory : PlaceholderFactory<Object, Vector3, Quaternion, Transform, Transform>
     {
         
     }

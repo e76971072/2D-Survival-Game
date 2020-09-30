@@ -9,24 +9,23 @@ namespace SpawnersTypes
     {
         [SerializeField] private GameObject[] enemyList;
 
-        private PlaceholderTransformFactory _transformFactory;
+        private TransformFactory _transformFactory;
 
         [Inject]
-        public void Construct(PlaceholderTransformFactory transformFactory)
+        public void Construct(TransformFactory transformFactory)
         {
             _transformFactory = transformFactory;
         }
-        
+
         protected override IEnumerator Spawn()
         {
             while (true)
             {
                 var spawnerTransform = transform;
                 var enemyToSpawn = RandomObject();
-                
-                var newEnemyTransform = _transformFactory.Create(enemyToSpawn);
-                newEnemyTransform.position = spawnerTransform.position;
-                newEnemyTransform.SetParent(spawnerTransform);
+
+                _transformFactory.Create(enemyToSpawn, spawnerTransform.position,
+                    enemyToSpawn.transform.rotation, spawnerTransform);
                 yield return new WaitForSeconds(timeBetweenSpawn);
             }
         }
