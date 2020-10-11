@@ -77,7 +77,7 @@ namespace UI
 
         private void OnDestroy()
         {
-            _signalBus.Unsubscribe<GameLostSignal>(LoseMenuHandler);
+            _signalBus?.Unsubscribe<GameLostSignal>(LoseMenuHandler);
         }
     }
 }

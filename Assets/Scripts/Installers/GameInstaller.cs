@@ -30,8 +30,6 @@ namespace Installers
             Container.BindMemoryPool<HealthBar, HealthBar.Pool>().WithInitialSize(10)
                 .FromComponentInNewPrefab(_healthBar)
                 .WithGameObjectName("HealthBar");
-            Container.BindFactory<Object, Vector3, Quaternion, Transform, Transform, TransformFactory>()
-                .FromFactory<CustomTransformFactory>();
         }
     }
 }

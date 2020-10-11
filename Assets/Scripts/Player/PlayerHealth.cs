@@ -28,7 +28,6 @@ namespace Player
             _animatorHandler = GetComponent<AttackedAnimatorHandler>();
             
             _signalBus.Subscribe<GameLostSignal>(DisableOnDead);
-            // GameManager.OnGameLost += DisableOnDead;
             HealthPickups.OnHealthPickedUp += Heal;
         }
 
@@ -53,7 +52,6 @@ namespace Player
         {
             base.OnDisable();
             _signalBus.Unsubscribe<GameLostSignal>(DisableOnDead);
-            // GameManager.OnGameLost -= DisableOnDead;
         }
 
         public void Heal(int healAmount)
